@@ -5,7 +5,7 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 
 
-function Template({title,subtitle,HighlightPoint,FormType,frontImage,user}) {
+function Template({ title, subtitle, HighlightPoint, FormType, frontImage, user }) {
 
 
     return <div className="w-11/12 mx-auto ">
@@ -23,10 +23,10 @@ function Template({title,subtitle,HighlightPoint,FormType,frontImage,user}) {
 
                 {/* FORM */}
                 {
-                    FormType === "login" ? <LoginForm user={user}/> : <SignupForm user={user}/>
+                    FormType === "login" ? <LoginForm user={user} /> : <SignupForm user={user} />
                 }
 
-                
+
             </div>
 
 
@@ -39,6 +39,7 @@ function Template({title,subtitle,HighlightPoint,FormType,frontImage,user}) {
             </div>
 
         </div>
+
 
     </div>;
 }

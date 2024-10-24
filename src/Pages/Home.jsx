@@ -1,3 +1,4 @@
+import React, { useRef, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 import HighlightText from "../components/core/HomePage/HighlightText";
@@ -10,28 +11,38 @@ import LearningLanguageSection from "../components/core/HomePage/LearningLanguag
 import Instructor from "../assets/Images/Instructor.png";
 import Footer from "../components/Common/Footer";
 import ExploreMore from "../components/core/HomePage/ExploreMore";
-import AOS from "aos";
-import { useEffect } from "react";
-import heading from "../components/Home/heading"
-import Heading_section_1 from "../components/Home/Heading_section_1";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import AnimatedHighlightText from '../components/core/HomePage/animatedHighlightText';
+import AnimatedHeading from '../components/core/HomePage/AnimatedHeading';
 
+gsap.registerPlugin(ScrollTrigger);
 
 function Home() {
 
     useEffect(() => {
-        AOS.init({
-            duration: 3000,
-            once: false, // Animation will trigger each time the element enters the viewport
-            mirror: true, // Animation will happen on scrolling back up
+        const ctx = gsap.context(() => {
+            gsap.from(".subheading-animation", {
+                opacity: 0,
+                delay: 0.5,
+                duration: 1,
+                x: -100,
+                scrollTrigger: {
+                    trigger: ".subheading-animation",
+                    start: "top 80%",
+                    toggleActions: "play reverse play reverse",
+                },
+            });
         });
+        return () => (ctx.revert());  // Cleanup on component unmount
     }, []);
 
-    <heading/>
 
     return (<div>
 
         {/* Section 1 */}
-        <div className="relative mx-auto flex flex-col w-11/12 max-w-[1000px] items-center text-white justify-between">
+        <div className="setion-1 relative mx-auto flex flex-col w-11/12 max-w-[1000px] items-center text-white justify-between">
 
             {/* Button */}
             <Link to={'signup'}>
@@ -44,15 +55,11 @@ function Home() {
                 </div>
             </Link>
 
+            <AnimatedHeading heading={"Empower Your Future with "} highlightText={"Coding Skills"}/>
 
-            {/* Heading */}
-            <div className="text-center text-4xl font-semibold mt-7" data-aos="slide-left">
-                Empower Your Future with
-                <HighlightText text={"Coding Skills"} />
-            </div>
 
             {/* Subheading */}
-            <div className="mt-5 wt-[90%] text-center text-lg font-bold text-richblack-300 below-md:text-justify below-md:hyphens-auto" data-aos="slide-right">
+            <div className="mt-5 wt-[90%] text-center text-lg font-bold  text-richblack-300 below-md:text-justify below-md:hyphens-auto subheading-animation" >
                 With our online coding courses, you can learn at your own pace, from anywhere in the world, and get access to a wealth of resources, including hands-on projects, quizzes, and personalized feedback from instructors.
             </div>
 
@@ -190,7 +197,8 @@ function Home() {
             <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto mt-[110px] relative">
                 <div className="flex gap-20 below-md:flex-col">
                     <div className="text-4xl below-md:text-center font-semibold w-[45%] below-md:w-full below-md:absolute below-md:-top-48 font-inter">
-                        Get the skills you need for a <HighlightText text={"job that is in demand."} />
+                        {/* Get the skills you need for a <HighlightText text={"job that is in demand."} /> */}
+                        <AnimatedHeading heading={"Get the skills you need for a "} highlightText={"job that is in demand."} fullAnimation={true}/>
                     </div>
 
                     <div className="flex flex-col w-[40%] below-md:w-full below-md:items-center gap-20 items">

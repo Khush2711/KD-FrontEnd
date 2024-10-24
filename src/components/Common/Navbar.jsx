@@ -1,12 +1,38 @@
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/Logo/Logo-Full-Light.png";
+import logo from "../../assets/Logo/KD Logo.png";
 import { NavbarLinks } from "../../data/navbar-links";
-
+import { useSelector } from "react-redux";
+import { IoCartOutline } from "react-icons/io5";
+import ProfileDropDown from "../core/Auth/ProfileDropDown";
+import { useEffect, useState } from "react";
+import { apiConnector } from "../../services/apiconnector";
+import { categories } from "../../services/apis";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 function Navbar() {
 
-    const location = useLocation();
+    const { token } = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.profile);
+    const { totalItem } = useSelector((state) => state.cart);
 
+    const [subLinks, setSubLinks] = useState([]);
+
+    const fetchSublinks = async () => {
+        try {
+            const result = await apiConnector("GET", categories.CATEGORIES_API);
+            // console.log("Printing sublinks : ", result);
+            setSubLinks(result?.data?.allCategories);
+
+        } catch (error) {
+            console.log(`Could not fetch category list`);
+        }
+    };    
+
+    useEffect(() => {
+        fetchSublinks()
+    }, [])
+
+    const location = useLocation();
     const matchRoute = (route) => { return route === location.pathname };
 
 
@@ -14,7 +40,7 @@ function Navbar() {
         <div className="w-11/12 max-w-maxContent flex items-center justify-between mx-auto">
 
             <Link to="/">
-                <img className="" width={160} height={42} src={logo} alt="logo" />
+                <img className="" width={160} height={10} src={logo} alt="logo" />
             </Link>
 
             {/* Nav */}
@@ -26,7 +52,28 @@ function Navbar() {
                                 {
                                     ele.title === "Catalog" ?
                                         (
-                                            <></>
+                                            <div className="text-richblack-25 flex gap-x-1 items-center group relative">
+                                                <p>{ele.title}</p>
+                                                <MdOutlineKeyboardArrowDown />
+
+                                                <div className=" absolute left-[50%] top-[50%] flex flex-col rounded-md bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 w-[300px] -translate-x-[50%] translate-y-[20%] z-10">
+
+                                                    <div className="absolute left-[50%] top-0 h-6 w-6 bg-richblack-5 rotate-45 rounded-md -translate-y-[40%] translate-x-[80%]"></div>
+
+                                                    {
+                                                        subLinks.length ? (
+                                                            subLinks.map((link,index) => (
+                                                                <Link to={`/${link.name}`} key={index}>
+                                                                    {link.name}
+                                                                </Link>
+                                                            ))
+
+                                                            
+                                                        ) :
+                                                        <p>No categories available</p>
+                                                    }
+                                                </div>
+                                            </div>
                                         )
                                         :
                                         (
@@ -43,6 +90,52 @@ function Navbar() {
                 </ul>
             </nav>
 
+            {/* Flex / signup / dashboard */}
+            <div className="flex gap-x-4 items-center">
+                {/* TODO : Remove string use constant file and instructor in that. */}
+                {
+                    user && user.accountType !== "Instructor" ?
+                        <Link to="/dashboard/cart" className="relative">
+                            <IoCartOutline />
+
+                            {
+                                totalItem > 0 ?
+                                    <span>
+                                        {totalItem}
+                                    </span>
+                                    :
+                                    <></>
+                            }
+
+                        </Link>
+                        :
+                        <>
+                        </>
+                }
+
+                {
+                    token === null ?
+                        <Link to="/login">
+                            <button className="border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md">Log In</button>
+                        </Link>
+                        :
+                        <></>
+                }
+
+                {
+                    token === null ?
+                        <Link to="/signup">
+                            <button className="border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md">Sign Up</button>
+                        </Link>
+                        :
+                        <></>
+                }
+
+                {
+                    token !== null ? <ProfileDropDown /> : <></>
+                }
+
+            </div>
 
 
         </div>

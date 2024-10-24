@@ -30,7 +30,7 @@ const timeLine = [
 function TimelineSection() {
     return <div className="w-11/12 max-w-maxContent mx-auto my-10 ">
         <div className="flex below-md:flex-col gap-15 items-center">
-            <div className="lg:w-[40%] flex flex-col gap-10"   data-aos="slide-left">
+            <div className="lg:w-[40%] flex flex-col gap-10">
                 {
                     timeLine.map((element, index) => {
                         return (
@@ -54,7 +54,7 @@ function TimelineSection() {
                 }
             </div>
 
-            <div className="relative shadow-blue-200 my-8 mx-3 strong custom-shadow"   data-aos="slide-right">
+            <div className="relative shadow-blue-200 my-8 mx-3 strong custom-shadow">
                 <img className="shadow-white object-cover h-fit" src={TimelineImage} alt="TimelineImage" />
 
                 <div className="absolute below-md:scale-50 bg-caribbeangreen-700 flex text-white uppercase py-6 md:left-[50%] md:translate-x-[-45%] md:translate-y-[-50%] below-md:translate-x-[-15%] below-md:translate-y-[-40%]">

@@ -19,3 +19,8 @@
         scale: 1;
     }
 }
+
+.gsap-marker-start, .gsap-marker-end {
+    z-index: 9999 !important; /* Bring markers to the front */
+  }
+  
