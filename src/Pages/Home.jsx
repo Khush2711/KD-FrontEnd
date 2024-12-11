@@ -11,7 +11,6 @@ import LearningLanguageSection from "../components/core/HomePage/LearningLanguag
 import Instructor from "../assets/Images/Instructor.png";
 import Footer from "../components/Common/Footer";
 import ExploreMore from "../components/core/HomePage/ExploreMore";
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import AnimatedHighlightText from '../components/core/HomePage/animatedHighlightText';
@@ -246,11 +245,6 @@ function Home() {
                 {/* review slider */}
             </div>
         </div>
-
-        {/* footer */}
-        <Footer />
-
-
     </div>);
 }
 

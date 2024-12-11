@@ -25,11 +25,11 @@ const Community = ["Forums", "Chapters", "Events"];
 const Footer = () => {
   return (
     <div className="bg-richblack-800">
-      <div className="flex lg:flex-row gap-8 items-center justify-between w-11/12 max-w-maxContent text-richblack-400 leading-6 mx-auto relative py-14">
-        <div className="border-b w-[100%] flex flex-col lg:flex-row pb-5 border-richblack-700">
+      <div className="flex md:flex-row gap-8 items-center justify-between w-11/12 max-w-maxContent text-richblack-400 leading-6 mx-auto relative py-14">
+        <div className="border-b w-[100%] flex flex-col md:flex-row pb-5 border-richblack-700">
           {/* Section 1 */}
-          <div className="lg:w-[50%] flex flex-wrap flex-row justify-between lg:border-r lg:border-richblack-700 pl-3 lg:pr-5 gap-3">
-            <div className="w-[30%] flex flex-col gap-3 lg:w-[30%] mb-7 lg:pl-0">
+          <div className="md:w-[50%] flex flex-wrap flex-row justify-between md:border-r md:border-richblack-700 pl-3 md:pr-5 gap-3">
+            <div className="w-[30%] flex flex-col gap-3 md:w-[30%] mb-7 md:pl-0">
               {/* <img src={Logo} alt="" className="object-contain" /> */}
               <strong>KD-Study</strong>
               <h1 className="text-richblack-50 font-semibold text-[16px]">
@@ -56,7 +56,7 @@ const Footer = () => {
               <div></div>
             </div>
 
-            <div className="w-[48%] lg:w-[30%] mb-7 lg:pl-0">
+            <div className="w-[48%] md:w-[30%] mb-7 md:pl-0">
               <h1 className="text-richblack-50 font-semibold text-[16px]">
                 Resources
               </h1>
@@ -84,7 +84,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="w-[48%] lg:w-[30%] mb-7 lg:pl-0">
+            <div className="w-[48%] md:w-[30%] mb-7 md:pl-0">
               <h1 className="text-richblack-50 font-semibold text-[16px]">
                 Plans
               </h1>
@@ -125,10 +125,10 @@ const Footer = () => {
           </div>
 
           {/* Section 2 */}
-          <div className="lg:w-[50%] flex flex-wrap flex-row justify-between pl-3 lg:pl-5 gap-3">
+          <div className="md:w-[50%] flex flex-wrap flex-row justify-between pl-3 md:pl-5 gap-3">
             {FooterLink2.map((ele, i) => {
               return (
-                <div key={i} className="w-[48%] lg:w-[30%] mb-7 lg:pl-0">
+                <div key={i} className="w-[48%] md:w-[30%] mb-7 md:pl-0">
                   <h1 className="text-richblack-50 font-semibold text-[16px]">
                     {ele.title}
                   </h1>
@@ -153,7 +153,7 @@ const Footer = () => {
 
       <div className="flex flex-row items-center justify-between w-11/12 max-w-maxContent text-richblack-400 mx-auto  pb-14 text-sm">
         {/* Section 1 */}
-        <div className="flex justify-between lg:items-start items-center flex-col lg:flex-row gap-3 w-full">
+        <div className="flex justify-between md:items-start items-center flex-col md:flex-row gap-3 w-full">
           <div className="flex flex-row">
             {BottomFooter.map((ele, i) => {
               return (
@@ -173,7 +173,7 @@ const Footer = () => {
             })}
           </div>
 
-          <div className="text-center">Made with ❤️ Khush Desai © 2023 Studynotion</div>
+          <div className="text-center">Made with ❤️ Khush Desai © 2024 KD Studies</div>
         </div>
       </div>
     </div>

@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getPasswordResetToken } from "../services/operations/authAPI";
 import Loader from "../components/Common/Loader";
+import { setEmailSent } from "../Slice/authSlice";
 
 function ForgotPassword() {
 
-    const emailSent = useSelector((state) => state.emailSent);
+    const emailSent = useSelector((state) => state.auth.emailSent);
     const [email, setEmail] = useState("");
     const { loading } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
+        if (emailSent) {
+            dispatch(setEmailSent(false));
+        }
         dispatch(getPasswordResetToken(email));
     }
+
+    useEffect(()=>{
+        dispatch(setEmailSent(false));
+    },[])
 
     return <div className="flex justify-center items-center h-[85vh]">
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Common/Loader";
 import OTPInput from "react-otp-input";
 import { Link, useNavigate } from "react-router-dom";
-import { getPasswordResetToken, Signup } from "../services/operations/authAPI";
+import { getPasswordResetToken, sendOTP, Signup } from "../services/operations/authAPI";
 
 
 function VerifyEmail() {
@@ -27,30 +27,30 @@ function VerifyEmail() {
         fontSize: "1.5rem",
         color: "#fff",
     };
+    const { firstName, lastName, email, password, confirmPassword, accountType } = useSelector((state) => state.auth.signupData);
 
     const { loading, signupData } = useSelector((state) => state.auth);
-
     const handleOnSubmit = (e) => {
-        e.prevantDefault();
-        const {
-            accountType,
-            firstName,
-            lastName,
-            email,
-            password,
-            confirmPassword,
-            otp
-        } = signupData;
+        e.preventDefault();    
+        dispatch(Signup({firstName, lastName, email, password, confirmPassword, otp, accountType, navigate}));
+    };
+    
 
-        dispatch(Signup(accountType,firstName,lastName,email,password,confirmPassword,otp,navigate));
-    }
+    const resendOTP = async (email) => {
 
-    // useEffect(()=>{
-    //     if(!signupData)
-    //     {
-    //         navigate('/signup');
-    //     }
-    // },[])
+        // Call sendOTP API to send OTP to the user’s email
+        try {
+            await dispatch(sendOTP(email)); // Assuming sendOTP dispatches the action
+        } catch (error) {
+            console.error("Error sending OTP:", error); // Handle the error if OTP failed to send
+        }
+    };
+
+    useEffect(() => {
+        if (!signupData) {
+            navigate('/signup');
+        }
+    }, [])
 
     return <div className="flex items-center justify-center h-[85vh]">
         {
@@ -83,17 +83,21 @@ function VerifyEmail() {
                             </button>
 
 
-                            <button className="py-2 rounded-lg font-inter font-bold w-full bg-yellow-50 text-black "
-                                onClick={()=>{
-                                    dispatch(getPasswordResetToken(signupData.email));
-                                }}>
-                                Resend It
-                            </button>
 
-                            <div className="">
-                                <Link to="/login">
-                                    <p className="flex items-center gap-2"><span>←</span> Back To Login</p>
-                                </Link>
+                            <div className="flex justify-between">
+                                <div className="">
+                                    <Link to="/login">
+                                        <p className="flex items-center gap-2"><span>←</span> Back To Login</p>
+                                    </Link>
+                                </div>
+                                <div className="">
+                                    <button className="mt-2 ml-auto max-w-max text-xs text-blue-100"
+                                        onClick={() => {
+                                            dispatch(resendOTP(signupData.email));
+                                        }}>
+                                        Resend It
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>

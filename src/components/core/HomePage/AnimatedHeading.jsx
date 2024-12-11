@@ -20,7 +20,6 @@ function AnimatedHeading({ heading, highlightText, fullAnimation = false }) {
                 scrollTrigger: {
                     trigger: `.${uniqueClass}`,
                     start: "top 80%",
-                    // markers: true,
                     toggleActions: "play reverse play reverse",
                 },
             });
@@ -31,56 +30,31 @@ function AnimatedHeading({ heading, highlightText, fullAnimation = false }) {
 
     return (
         <div className={`text-center text-4xl font-semibold mt-7 ${uniqueClass}`}>
-            <div className={`text-center text-4xl font-semibold mt-7 ${uniqueClass}`}>
-                {
-                    fullAnimation === false?
-                        <>
-                            {heading.split("").map((ch, index) => (
-                                <span
-                                    key={index}
-                                    className={`${fullAnimation === true ? "inline-block" : ""}`}
-                                >
-                                    {ch}
-                                </span>
-                            ))}
-
-                            {highlightText.split("").map((ch, index) => (
-                                <span
-                                    key={index}
-                                    className="inline-block bg-gradient-to-b from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text font-bold"
-                                >
-                                    {ch}
-                                </span>
-                            ))}
-                        </>
-                        :
-                        <>
-                            {
-                                heading.split(" ").map((word, index) => (
-                                    <span
-                                        key={index}
-                                        className={`${fullAnimation === true ? "inline-block" : ""}`}
-                                    >
-                                        {word}&nbsp;
-                                    </span>
-                                ))
-                            }
-
-                            {highlightText.split(" ").map((word, index) => (
-                                <span
-                                    key={index}
-                                    className="inline-block bg-gradient-to-b from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text font-bold"
-                                >
-                                    {word}&nbsp;
-                                </span>
-                            ))} 
-
-                        </>
-                }
-
+            <div className={`text-center text-4xl below-md:text-2xl font-semibold mt-7 ${uniqueClass}`}>
+                {heading.split("").map((ch, index) => (
+                    <span
+                        key={index}
+                        className={`${fullAnimation === true ? "inline-block" : ""}`}
+                    >
+                        {ch}
+                    </span>
+                ))}
+                <div className="inline below-md:block">
+                    {highlightText.split("").map((ch, index) =>
+                        ch === " " ? (
+                            <span key={index}>&nbsp;</span>
+                        ) : (
+                            <span
+                                key={index}
+                                className="inline-block bg-gradient-to-b from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text font-bold"
+                            >
+                                {ch}
+                            </span>
+                        )
+                    )}
+                </div>
             </div>
         </div>
-
     );
 }
 
