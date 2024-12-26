@@ -13,7 +13,7 @@ export default function ProfileDropdown() {
     const ref = useRef(null);
 
     const user = useSelector((state) => state.profile.user);
-    console.log("User from Redux:", user);
+    // console.log("User from Redux:", user);
 
     useOnClickOutside(ref, () => setOpen(false));
 

@@ -11,7 +11,12 @@ function Dashboard() {
     const { loading: profileLoading } = useSelector((state) => state.profile);
 
     if (profileLoading || authLoading) {
-        return <Loader />;
+        return <div className="flex">
+            <Sidebar />
+            <div className="h-[90vh] flex justify-center items-center w-[80vw]">
+                <Loader />
+            </div>
+        </div>;
     }
 
     return <div className="relative flex min-h-[cal(100vh-3.5rem)]">

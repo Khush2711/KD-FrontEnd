@@ -9,15 +9,24 @@ import { useEffect } from "react";
 import ForgotPassword from "./Pages/ForgotPassword";
 import UpdatePassword from "./Pages/UpdatePassword";
 import VerifyEmail from "./Pages/VerifyEmail";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUserData, setToken, setUserData } from "./Slice/authSlice";
 import About from "./Pages/About";
 import Footer from "./components/Common/Footer";
-import Dashboard from "./Pages/Dashboard";
 import ErrorPage from "./Pages/ErrorPage";
 import { decryptData } from "./utils/encryptionUtils";
-import { initializeUser, setUser } from "./Slice/profileSlice";
+import { initializeUser, setAdditionalDetails, setUser } from "./Slice/profileSlice";
 import MyProfile from "./components/core/Dashboard/MyProfile";
+import OpenRoute from "./components/core/Auth/OpenRoute";
+import PrivateRoute from "./components/core/Auth/PrivateRoute";
+import ContactForm from "./components/About/ContactForm";
+import Settings from "./components/core/Dashboard/Settings/index";
+import EnrolledCourse from "./components/core/Dashboard/EnrolledCourse";
+import Cart from "./components/core/Dashboard/Cart";
+import { ACCOUNT_TYPE } from "./utils/constants";
+import Dashboard from "./Pages/Dashboard";
+import AddCourse from "./components/core/Dashboard/AddCourse";
+
 
 function App() {
 
@@ -25,18 +34,111 @@ function App() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.profile);
 
   useEffect(() => {
-    dispatch(initializeUser()); // Initialize user data from localStorage
-  }, [dispatch]);
+    // dispatch(initializeUser()); // Initialize user data from localStorage
+    const encryptedData = localStorage.getItem("userData");
+    const sys_ref = localStorage.getItem("sys_ref");
+    if (encryptedData) {
+      try {
+        const decryptedData = decryptData(encryptedData);
+        const decryptAdditionalData = decryptData(sys_ref);
 
- 
+        // console.log(decryptedData);
+
+        // Validate the expiry time
+        const currentTime = new Date().getTime();
+        if (decryptedData.expiryTime && decryptedData.expiryTime > currentTime) {
+          dispatch(setUser(decryptedData)); // Set decrypted user data in Redux
+          dispatch(setAdditionalDetails({ ...decryptAdditionalData })); // Correct function name here
+        } else {
+          console.warn("User data has expired.");
+          localStorage.removeItem("userData"); // Remove expired data
+          localStorage.removeItem("token"); // Remove expired data
+          localStorage.removeItem("sys_ref");
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Failed to decrypt user data:", error);
+        localStorage.removeItem("userData"); // Remove expired data
+        localStorage.removeItem("token"); // Remove corrupted data
+        localStorage.removeItem("sys_ref");
+        navigate("/");
+      }
+    }
+  }, []);
+
+
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
+
+        <Route path="/signup" element={
+          <OpenRoute>
+            <Signup />
+          </OpenRoute>
+        } />
+
+        <Route path="/login" element={
+          <OpenRoute>
+            <Login />
+          </OpenRoute>
+        } />
+
+        <Route path="/forgot-password" element={
+          <OpenRoute>
+            <ForgotPassword />
+          </OpenRoute>
+        } />
+
+        <Route path="/update-password/:token" element={
+          <OpenRoute>
+            <UpdatePassword />
+          </OpenRoute>
+        } />
+
+        <Route path="/verify" element={
+          <OpenRoute>
+            <VerifyEmail />
+          </OpenRoute>
+        } />
+
+        <Route path="/about" element={<About />} />
+
+        <Route path="/contact" element={<ContactForm />}></Route>
+
+        <Route
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }>
+          <Route path="/dashboard/my-profile" element={<MyProfile />}></Route>
+          <Route path="dashboard/Settings" element={<Settings />} />
+
+          {
+            user && user.accountType === ACCOUNT_TYPE.STUDENT &&
+            <>
+              <Route path="/dashboard/enrolled-courses" element={<EnrolledCourse />}></Route>
+              <Route path="dashboard/cart" element={<Cart />} />
+            </>
+          }
+
+          {
+            user && user.accountType === ACCOUNT_TYPE.INSTRUCTOR &&
+            <>
+              <Route path="/dashboard/add-course" element={<AddCourse />}></Route>
+            </>
+          }
+
+        </Route>
+
+
+
+        {/* <Route path="/signup" element={<Signup />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/forgot-password" element={<ForgotPassword />}></Route>
         <Route path="/update-password/:token" element={<UpdatePassword />}></Route>
@@ -44,7 +146,7 @@ function App() {
         <Route path="/about" element={<About />}></Route>
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="/dashboard/my-profile" element={<MyProfile />}></Route>
-        </Route>
+        </Route> */}
 
         <Route path="*" element={<ErrorPage />}></Route>
 

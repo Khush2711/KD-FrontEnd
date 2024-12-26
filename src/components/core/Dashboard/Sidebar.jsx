@@ -4,7 +4,6 @@ import { logout } from "../../../services/operations/authAPI";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../Common/Loader";
 import SidebarLink from "./SidebarLink";
-import Dashboard from "../../../Pages/Dashboard";
 import { useNavigate } from "react-router-dom";
 import { VscSignOut } from "react-icons/vsc";
 import ConfirmationModal from "../../Common/confirmationModal";
@@ -26,7 +25,7 @@ function Sidebar() {
     const extraRoute = [{ id: 1010, name: "Settings", path: "dashboard/settings", icon: "VscSettingsGear" }]
 
     return <div>
-        <div className="flex min-w-[222px] flex-col border-r-[1px] border-r-richblack-700 h-[calc(100vh-3.5rem)] bg-richblack-800 py-10 ">
+        <div className="flex min-w-[222px] flex-col border-r-[1px] border-r-richblack-700 h-[100%] bg-richblack-800 py-10 ">
 
             <div className="flex flex-col">
                 {

@@ -9,20 +9,6 @@ const initialState = {
     emailSent: false,
 };
 
-// Attempt to load encrypted user data from localStorage on initial load
-// const encryptedData = localStorage.getItem("userData");
-// if (encryptedData) {
-//     try {
-//         const decryptedData = decryptData(encryptedData);
-//         if (decryptedData && decryptedData.userData) {
-//             initialState.user = decryptedData.userData;
-//             initialState.token = decryptedData.userData.token;
-//         }
-//     } catch (error) {
-//         console.error("Failed to decrypt user data", error);
-//         localStorage.removeItem("userData"); // Remove corrupted data
-//     }
-// }
 const localStorageToken = localStorage.getItem("token");
 if(localStorageToken)
 {

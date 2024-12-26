@@ -2,10 +2,10 @@ import toast from "react-hot-toast";
 import { setLoading, setEmailSent, setToken, clearUserData } from "../../Slice/authSlice";
 import { apiConnector } from "../apiconnector";
 import { categories } from "../apis";
-import { useNavigate } from "react-router-dom";
-import { setUser } from "../../Slice/profileSlice";
+// import { useNavigate } from "react-router-dom";
+import { setUser, setLoading as profileLoader, setAdditionalDetails } from "../../Slice/profileSlice";
 import { setUserData } from "../../Slice/authSlice";
-import { encryptData } from "../../utils/encryptionUtils"; // Import encryption utility
+import { decryptData, encryptData } from "../../utils/encryptionUtils"; // Import encryption utility
 
 export function getPasswordResetToken(email) {
     return async (dispatch) => {
@@ -80,12 +80,12 @@ export function Signup({ accountType, firstName, lastName, email, password, conf
             dispatch(setUser({ ...user, image: userImage }));
 
 
-            console.log('response : ',response);
-            
-            
+            console.log('response : ', response);
+
+
             let encryptedData = encryptData(user);
-            localStorage.setItem("userData",encryptedData);
-            localStorage.setItem("token",user.token);
+            localStorage.setItem("userData", encryptedData);
+            localStorage.setItem("token", user.token);
 
             dispatch(setUser(user));
 
@@ -127,18 +127,22 @@ export function sendOTP(email) {
 export const login = (email, password, navigate) => async (dispatch) => {
     try {
         // const response = await axios.post("/api/login", { email, password });
-        const response = await apiConnector("POST", categories.LOGIN, { email , password });
+        const response = await apiConnector("POST", categories.LOGIN, { email, password });
 
         const userData = response.data; // Assuming user data and token are returned
         // Dispatch user data to Redux store
         dispatch(setUserData(userData.user));
         dispatch(setToken(userData.user.token));
 
+
         let encryptedData = encryptData(userData.user);
-        localStorage.setItem("userData",encryptedData);
-        localStorage.setItem("token",userData.user.token);
+        let encryptedAdditionalData = encryptData(userData?.user?.additionDetails);
+        localStorage.setItem("userData", encryptedData);
+        localStorage.setItem("sys_ref", encryptedAdditionalData);
+        localStorage.setItem("token", userData.user.token);
 
         dispatch(setUser(userData.user));
+        dispatch(setAdditionalDetails(userData?.user?.additionDetails));
 
         // Navigate to the dashboard or any protected route
         navigate("/dashboard/my-profile");
@@ -156,13 +160,76 @@ export function logout(navigate) {
             await apiConnector("POST", categories.LOGOUT, null, { withCredentials: true });
 
             dispatch(clearUserData());
+            localStorage.removeItem("sys_ref");
             localStorage.removeItem("userData");
             localStorage.removeItem("token");
+
             toast.success("Logged out");
             navigate("/"); // Redirect to login page
         } catch (error) {
             console.error("Logout failed", error);
             toast.error("Logout failed, please try again");
+        }
+    };
+}
+
+// Change Profile image
+
+/*
+export function changeProfile(navigate, formData) {
+    return async (dispatch) => {
+        try {
+
+            let headers = {
+                Authorisation: localStorage.getItem("token")
+            }
+            console.log(formData);
+
+            // Logout request with credentials to ensure cookies are sent
+            let profileImage = await apiConnector("PUT", categories.CHANGE_PROFILE_IMAGE, formData, headers, { withCredentials: true });
+            console.log(profileImage);
+            toast.success("Profile Image Changed Successfully");
+            let userData = encryptData(profileImage);
+            console.log(userData);
+            localStorage.setItem(userData);
+            dispatch(setUserData(profileImage));
+
+        } catch (error) {
+            console.error("Failed to change profile", error);
+            toast.error("Failed to upload image");
+            console.log(error);
+        }
+    };
+}
+*/
+
+export function changeProfile(navigate, formData) {
+    return async (dispatch) => {
+        try {
+            let headers = {
+                Authorisation: localStorage.getItem("token")
+            }
+            console.log(formData);
+
+            // Logout request with credentials to ensure cookies are sent
+            let profileImage = await apiConnector("PUT", categories.CHANGE_PROFILE_IMAGE, formData, headers, { withCredentials: true });
+            console.log(profileImage);
+
+            // Successfully updated profile image
+            toast.success("Profile Image Changed Successfully");
+
+            // Dispatch the updated profile image to Redux store
+            dispatch(setUser(profileImage.data)); // Assuming `profileImage.data` contains the updated user info
+
+            // Update the local storage with the new image (and other user data if needed)
+            const updatedUserData = { ...profileImage.data }; // Adjust as needed
+            let encryptedData = encryptData(profileImage)
+            localStorage.setItem("user", JSON.stringify(encryptedData));  // Store updated data in localStorage
+
+        } catch (error) {
+            console.error("Failed to change profile", error);
+            toast.error("Failed to upload image");
+            console.log(error);
         }
     };
 }

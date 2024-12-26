@@ -34,7 +34,7 @@ export const decryptData = (encryptedData) => {
   const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
   // Log decrypted data to inspect
-  console.log("Decrypted Data:", decryptedData);
+  // console.log("Decrypted Data:", decryptedData);
 
   return decryptedData;
 };
