@@ -57,6 +57,7 @@ function App() {
           localStorage.removeItem("userData"); // Remove expired data
           localStorage.removeItem("token"); // Remove expired data
           localStorage.removeItem("sys_ref");
+          dispatch(setToken(null));
           navigate("/");
         }
       } catch (error) {

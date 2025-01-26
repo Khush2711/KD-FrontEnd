@@ -8,6 +8,8 @@ import { setCourse, setStep } from "../../../../../Slice/course";
 import { COURSE_STATUS } from "../../../../../utils/constants";
 import Iconbtn from "../../../../Common/IconBtn";
 import toast from "react-hot-toast";
+import ChipInput from "./ChipInput";
+import Upload from "../Upload";
 
 function CourseInformationForm() {
   const {
@@ -64,7 +66,7 @@ function CourseInformationForm() {
       currentValues.courseBenefits !== course.whatYouWillLearn ||
       currentValues.courseCategory !== course.category._id ||
       currentValues.courseRequirements?.toString() !==
-        course.instructions?.toString() ||
+      course.instructions?.toString() ||
       currentValues.courseImage !== course.thumbnail
     );
   };
@@ -104,6 +106,8 @@ function CourseInformationForm() {
         if (result) {
           toast.success("Course updated successfully!");
           dispatch(setCourse(result));
+          console.log(`Result : `,result);
+          
           dispatch(setStep(2));
         }
       } else {
@@ -111,6 +115,9 @@ function CourseInformationForm() {
       }
       return;
     }
+
+    console.log(`KHUSH DESAI CREATING COURSE........`);
+    
 
     const formData = new FormData();
     formData.append("courseName", data.courseTitle);
@@ -128,6 +135,7 @@ function CourseInformationForm() {
     if (result) {
       toast.success("Course created successfully!");
       dispatch(setCourse(result));
+      console.log(`KHUSH DESAI SET COURSE IN STORE AS : `,result);
       dispatch(setStep(2));
     }
   };
@@ -135,96 +143,120 @@ function CourseInformationForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="rounded-md border-richblack-700 bg-richblack-800 p-6 space-y-8"
+      className="rounded-[8px]-md border-richblack-700 text-richblack-5 bg-richblack-800 p-6 space-y-8 border "
     >
-      <div>
-        <label htmlFor="courseTitle">
-          Course Title<sup>*</sup>
+      <div className="flex flex-col gap-1">
+        <label htmlFor="courseTitle" className="text-richblack-5 ">
+          Course Title<sup className="text-red">*</sup>
         </label>
         <input
           type="text"
           id="courseTitle"
           placeholder="Enter Course Title"
-          className="w-full"
+          className="w-full bg-richblack-700 p-[12px] text-richblack-5 rounded-[8px] outline-none"
           {...register("courseTitle", { required: true })}
         />
         {errors.courseTitle && (
-          <span className="text-red-500 text-sm">Course Title is required.</span>
+          <span className="text-red text-sm">Course Title is required.</span>
         )}
       </div>
 
-      <div>
-        <label htmlFor="courseDescription">
-          Course Short Description<sup>*</sup>
+      <div className="flex flex-col gap-1">
+        <label htmlFor="courseDescription" className="text-richblack-5">
+          Course Short Description<sup className="text-red">*</sup>
         </label>
         <textarea
           id="courseDescription"
           placeholder="Enter Course Description"
-          className="min-h-[140px] w-full"
+          className="min-h-[140px] w-full bg-richblack-700 p-[12px] text-richblack-5 rounded-[8px] outline-none"
           {...register("courseDescription", { required: true })}
         ></textarea>
         {errors.courseDescription && (
-          <span className="text-red-500 text-sm">
+          <span className="text-red text-sm">
             Course Description is required.
           </span>
         )}
       </div>
 
-      <div className="relative">
+      <div className="relative flex flex-col gap-1">
         <label htmlFor="coursePrice">
-          Course Price<sup>*</sup>
+          Course Price<sup className="text-red">*</sup>
         </label>
         <input
           type="number"
           id="coursePrice"
           placeholder="Enter Price"
-          className="w-full pl-8"
+          className="pl-8 w-full bg-richblack-700 p-[12px] text-richblack-5 rounded-[8px] outline-none"
           {...register("coursePrice", { required: true })}
         />
-        <HiOutlineCurrencyRupee className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
+        <HiOutlineCurrencyRupee className="text-richblack-5 absolute top-[3.2rem] left-2 transform -translate-y-1/2 text-gray-500" />
         {errors.coursePrice && (
-          <span className="text-red-500 text-sm">Course Price is required.</span>
+          <span className="text-red text-sm">Course Price is required.</span>
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col gap-1">
         <label htmlFor="courseCategory">
-          Course Category<sup>*</sup>
+          Course Category<sup className="text-red">*</sup>
         </label>
         <select
           id="courseCategory"
+          className="w-full bg-richblack-700 p-[12px] text-richblack-5 rounded-[8px] outline-none"
           defaultValue={editCoure ? course.category._id : ""}
           {...register("courseCategory", { required: true })}
         >
-          <option value="" disabled>
+          <option className="w-full bg-richblack-700 p-[12px] text-richblack-5 rounded-[8px] outline-none" value="" disabled>
             Choose a Category
           </option>
           {!loading &&
             courseCategory.map((item) => (
-              <option key={item._id} value={item._id}>
+              <option key={item._id} value={item._id} className="w-full bg-richblack-700 p-[12px] text-richblack-5 rounded-[8px] outline-none">
                 {item.name}
               </option>
             ))}
         </select>
         {errors.courseCategory && (
-          <span className="text-red-500 text-sm">
-            Course Category is required.
-          </span>
+          <>
+            <br />
+            <span className="text-red text-sm">
+              Course Category is required.
+            </span>
+          </>
         )}
       </div>
 
-      <div>
+      {/* Course Tags */}
+      <ChipInput
+        label="Tags"
+        name="courseTags"
+        placeholder="Enter Tags and press Enter"
+        register={register}
+        errors={errors}
+        setValue={setValue}
+        getValues={getValues}
+      />
+      {/* Course Thumbnail Image */}
+      <Upload
+        name="courseImage"
+        label="Course Thumbnail"
+        register={register}
+        setValue={setValue}
+        errors={errors}
+        editData={editCoure ? course?.thumbnail : null}
+      />
+
+      <div className="flex flex-col gap-1">
         <label htmlFor="courseBenefits">
-          Benefits of the Course<sup>*</sup>
+          Benefits of the Course<sup className="text-red">*</sup>
         </label>
         <textarea
           id="courseBenefits"
           placeholder="Enter Benefits of the Course"
-          className="min-h-[130px] w-full"
+          className="min-h-[130px] w-full bg-richblack-700 p-[12px] text-richblack-5 rounded-[8px] outline-none"
           {...register("courseBenefits", { required: true })}
         ></textarea>
         {errors.courseBenefits && (
-          <span className="text-red-500 text-sm">
+          <span className="text-red text-sm">
             Course Benefits is required.
           </span>
         )}

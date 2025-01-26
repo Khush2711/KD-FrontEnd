@@ -3,12 +3,12 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
-      'xs': '480px', 
-      'below-md': { 'max': '950px' } ,
+      'xs': '480px',
+      'below-md': { 'max': '950px' },
       'md': '1024px',
       'custom': { 'min': '950px', 'max': '1120px' },
       'xl': '1023px',
-      
+
     },
     fontFamily: {
       inter: ["Inter", "sans-serif"],
@@ -103,6 +103,7 @@ module.exports = {
         800: "#4F0A25",
         900: "#340019",
       },
+      red: "#FF0000",
       yellow: {
         5: "#FFF970",
         25: "#FFE83D",

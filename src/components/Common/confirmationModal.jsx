@@ -3,10 +3,11 @@ import IconBtn from "./IconBtn";
 
 function ConfirmationModal({ modalData }) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded shadow-lg w-96">
-        <p className="text-lg font-semibold mb-2">{modalData.text1}</p>
-        <p className="text-sm text-gray-600 mb-4">{modalData.text2}</p>
+  
+    <div className="fixed inset-0 z-[1000] !mt-0 grid place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm">
+      <div className="w-11/12 max-w-[400px] rounded-lg border border-richblack-400 bg-richblack-800 p-6">
+        <p className="text-2xl font-semibold text-richblack-5">{modalData.text1}</p>
+        <p className="mt-3 mb-5 leading-6 text-richblack-200">{modalData.text2}</p>
         <div className="flex justify-end gap-4">
           <IconBtn
             onClick={() => {
@@ -16,10 +17,9 @@ function ConfirmationModal({ modalData }) {
           />
           <button
             onClick={() => {
-              console.log("Logout canceled");
               modalData?.btn2Handler?.();
             }}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+            className="cursor-pointer rounded-md bg-richblack-200 py-[8px] px-[20px] font-semibold text-richblack-900"
           >
             {modalData?.btn2Text}
           </button>

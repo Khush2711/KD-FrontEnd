@@ -26,41 +26,52 @@ function RenderSteps() {
 
   return <div>
 
-    {
-      steps.map((item, idx) => (
-        <>
-          <div className="">
+    <div className="flex justify-evenly m-2">
+      {
+        steps.map((item, idx) => (
+          <>
 
-            <div className={`${step === item.id ? "bg-yellow-900 border-yellow-50 text-yellow-50" :
-              "bg-richblack-800 border-richblack-700 text-richblack-300"}`}>
+            <div className={`text-white flex justify-evenly gap-x-5`}>
               {
-                step > item.id ? (<FaCheck />) : (item.id)
+                step > item.id ? (
+
+                  <>
+                    <div className="flex flex-col text-white justify-evenly w-48 items-center z-[5] relative">
+                      <p className="w-11 h-11 rounded-full bg-yellow-25 flex justify-center items-center z-[5]">
+                        <FaCheck className="text-black"/>
+                      </p>
+                      <p className="text-[12px]">{item.title}</p>
+                      {
+                        item.id < 3 && (
+                          <div className={`border border-dashed w-52 top-5 -right-24 absolute z-[2] ${item.id < step && 'border-yellow-25'} `}></div>
+                        )
+                      }
+                    </div>
+
+                  </>
+                ) : (
+                  <>
+                    <div className="flex flex-col text-white justify-evenly w-48 items-center relative z-[5]">
+                      <p className={`w-11 h-11 rounded-full bg-richblack-700 flex justify-center items-center z-[5] ${step === item.id &&  "border-2 border-yellow-100 bg-yellow-800 text-yellow-25"}`}>{item.id}</p>
+                      <p className="text-[12px]">{item.title}</p>
+                      {
+                        item.id < 3 && (
+                          <div className={`border border-dashed w-52 top-5 -right-24 absolute z-[2] ${item.id < step && 'border-yellow-25'} `}></div>
+                        )
+                      }
+                    </div>
+                  </>
+                )
               }
             </div>
-
-          </div>
-
-          {/* TODO: ADD DASHES */}
-          {/* {
-            item.id !== step
-          } */}
-        </>
-      ))
-    }
-
-    <div className="">
-      {
-        steps.map((item) => (
-          <>
-            <p>{item.title}</p>
           </>
         ))
       }
     </div>
 
-    { step === 1 && <CourseInformationForm/> }
-    { step === 2 && <CourseBuilderForm/> }
-    { step === 3 && <CoursePublishForm/> }
+    {step === 1 && <CourseInformationForm />}
+    {step === 2 && <CourseBuilderForm />}
+    {step === 3 && <CoursePublishForm />}
 
   </div>;
 }
