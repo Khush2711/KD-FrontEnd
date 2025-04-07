@@ -43,10 +43,10 @@ function CourseInformationForm() {
 
   useEffect(() => {
     getCategory();
-
+    console.error(course);
     if (editCoure) {
       setValue("courseTitle", course.courseName);
-      setValue("courseDescription", course.courseDescription);
+      setValue("CourseDescription", course.CourseDescription);
       setValue("coursePrice", course.price);
       setValue("courseTags", course.tag);
       setValue("courseBenefits", course.whatYouWillLearn);
@@ -54,13 +54,28 @@ function CourseInformationForm() {
       setValue("courseRequirements", course.instructions);
       setValue("courseImage", course.thumbnail);
     }
-  }, [editCoure, course, setValue]);
+  }, []);
+
+  useEffect(() => {
+    // console.error(course);
+    if (course) {
+      setValue("courseTitle", course.courseName);
+      setValue("CourseDescription", course.CourseDescription);
+      setValue("coursePrice", course.price);
+      setValue("courseTags", course.tag);
+      setValue("courseBenefits", course.whatYouWillLearn);
+      setValue("courseCategory", course.category._id);
+      setValue("courseRequirements", course.instructions);
+      setValue("thumbnailImage", course.thumbnail);
+      // formData.append("tag", data.courseTags);
+    }
+  }, []);
 
   const isFormUpdated = () => {
     const currentValues = getValues();
     return (
       currentValues.courseTitle !== course.courseName ||
-      currentValues.courseDescription !== course.courseDescription ||
+      currentValues.CourseDescription !== course.CourseDescription ||
       currentValues.coursePrice !== course.price ||
       currentValues.courseTags?.toString() !== course.tag?.toString() ||
       currentValues.courseBenefits !== course.whatYouWillLearn ||
@@ -72,71 +87,88 @@ function CourseInformationForm() {
   };
 
   const onSubmit = async (data) => {
-    if (editCoure) {
-      if (isFormUpdated()) {
+    // console.log(data);
+    
+    try {
+      if (editCoure) {
+        if (isFormUpdated()) {
+          const currentValues = getValues()
+          const formData = new FormData()
+          // console.log(data)
+          formData.append("courseId", course._id)
+          if (currentValues.courseTitle !== course.courseName) {
+            formData.append("courseName", data.courseTitle)
+          }
+          if (currentValues.courseShortDesc !== course.courseDescription) {
+            formData.append("courseDescription", data.courseShortDesc)
+          }
+          if (currentValues.coursePrice !== course.price) {
+            formData.append("price", data.coursePrice)
+          }
+          if (currentValues.courseTags.toString() !== course.tag.toString()) {
+            formData.append("tag", JSON.stringify(data.courseTags))
+          }
+          if (currentValues.courseBenefits !== course.whatYouWillLearn) {
+            formData.append("whatYouWillLearn", data.courseBenefits)
+          }
+          if (currentValues.courseCategory._id !== course.category._id) {
+            formData.append("category", data.courseCategory)
+          }
+          if (
+            currentValues.courseRequirements.toString() !==
+            course.instructions.toString()
+          ) {
+            formData.append(
+              "instructions",
+              JSON.stringify(data.courseRequirements)
+            )
+          }
+          if (currentValues.courseImage !== course.thumbnail) {
+            formData.append("thumbnailImage", data.courseImage)
+          }
+          // console.log("Edit Form data: ", formData)
+          setLoading(true)
+          const result = await editCourseDetails(formData, token)
+          setLoading(false)
+          if (result) {
+            dispatch(setStep(2))
+            dispatch(setCourse(result))
+          }
+        }
+      } else {
         const formData = new FormData();
-        formData.append("course_id", course._id);
+        formData.append("courseName", data.courseTitle);
+        formData.append("CourseDescription", data.CourseDescription);
+        formData.append("price", data.coursePrice);
+        formData.append("whatYouWillLearn", data.courseBenefits);
+        formData.append("category", data.courseCategory);
+        formData.append("instructions", JSON.stringify(data.courseRequirements));
+        formData.append("status", COURSE_STATUS.DRAFT);
+        formData.append("thumbnailImage", data.courseImage);
 
-        if (data.courseTitle !== course.courseName) {
-          formData.append("courseName", data.courseTitle);
-        }
-        if (data.courseDescription !== course.courseDescription) {
-          formData.append("courseDescription", data.courseDescription);
-        }
-        if (data.coursePrice !== course.price) {
-          formData.append("coursePrice", data.coursePrice);
-        }
-        if (data.courseCategory !== course.category._id) {
-          formData.append("category", data.courseCategory);
-        }
-        if (
-          data.courseRequirements?.toString() !==
-          course.instructions?.toString()
-        ) {
-          formData.append(
-            "instructions",
-            JSON.stringify(data.courseRequirements)
-          );
-        }
+        // console.log(`data.courseRequirements : ${data.courseRequirements}............. JSON.stringify(data.courseRequirements) ${JSON.stringify(data.courseRequirements)}`);
+        console.log(`data.courseCategory : ${data.courseCategory}`);
+
+
+        // *** KEY CHANGE: Join tags array into a string ***
+        const tagsString = data.courseTags ? data.courseTags.join(",") : ""; // Handle potential undefined/null
+        formData.append("tag", tagsString);
+
+        console.log("Course Data:", formData);
 
         setLoading(true);
-        const result = await editCourseDetails(formData, token);
+        const result = await addCourseDetails(formData, token);
         setLoading(false);
 
         if (result) {
-          toast.success("Course updated successfully!");
+          toast.success("Course created successfully!");
           dispatch(setCourse(result));
-          console.log(`Result : `,result);
-          
           dispatch(setStep(2));
         }
-      } else {
-        toast.error("No changes made to the form.");
       }
-      return;
-    }
-
-    console.log(`KHUSH DESAI CREATING COURSE........`);
-    
-
-    const formData = new FormData();
-    formData.append("courseName", data.courseTitle);
-    formData.append("courseDescription", data.courseDescription);
-    formData.append("price", data.coursePrice);
-    formData.append("whatYouWillLearn", data.courseBenefits);
-    formData.append("category", data.courseCategory);
-    formData.append("instructions", JSON.stringify(data.courseRequirements));
-    formData.append("status", COURSE_STATUS.DRAFT);
-
-    setLoading(true);
-    const result = await addCourseDetails(formData, token);
-    setLoading(false);
-
-    if (result) {
-      toast.success("Course created successfully!");
-      dispatch(setCourse(result));
-      console.log(`KHUSH DESAI SET COURSE IN STORE AS : `,result);
-      dispatch(setStep(2));
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("An error occurred. Please try again later."); // User-friendly error message
     }
   };
 
@@ -162,16 +194,16 @@ function CourseInformationForm() {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="courseDescription" className="text-richblack-5">
+        <label htmlFor="CourseDescription" className="text-richblack-5">
           Course Short Description<sup className="text-red">*</sup>
         </label>
         <textarea
-          id="courseDescription"
+          id="CourseDescription"
           placeholder="Enter Course Description"
           className="min-h-[140px] w-full bg-richblack-700 p-[12px] text-richblack-5 rounded-[8px] outline-none"
-          {...register("courseDescription", { required: true })}
+          {...register("CourseDescription", { required: true })}
         ></textarea>
-        {errors.courseDescription && (
+        {errors.CourseDescription && (
           <span className="text-red text-sm">
             Course Description is required.
           </span>

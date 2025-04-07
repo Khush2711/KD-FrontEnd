@@ -33,10 +33,10 @@ export default function CourseBuilderForm() {
 
   // handle form submission
   const onSubmit = async (data) => {
-    // console.log(data)
+    // console.log("Course value after addding section .....................",course)
     setLoading(true)
 
-    let result
+    let result;
 
     if (editSectionName) {
       result = await updateSection(
@@ -47,10 +47,8 @@ export default function CourseBuilderForm() {
         },
         token
       )
+      // console.log("edit", result)
     } else {
-      console.log(`Section Name : ${ data.sectionName}, course id : ${course._id}`)
-      console.log(course);
-      
       result = await createSection(
         {
           sectionName: data.sectionName,
@@ -60,8 +58,7 @@ export default function CourseBuilderForm() {
       )
     }
     if (result) {
-      console.log("section result", result)
-      dispatch(setCourse(result.data))
+      dispatch(setCourse(editSectionName ? { ...result } : { ...result.data.data.updatedCourse }));
       setEditSectionName(null)
       setValue("sectionName", "")
     }
@@ -75,6 +72,8 @@ export default function CourseBuilderForm() {
   }
 
   const handleChangeEditSectionName = (sectionId, sectionName) => {
+    // alert("Changing SubSection Name");
+    
     if (editSectionName === sectionId) {
       cancelEdit()
       return
@@ -158,7 +157,7 @@ export default function CourseBuilderForm() {
         >
           Back
         </button>
-        <IconBtn disabled={loading} text="Next" onclick={goToNext}>
+        <IconBtn disabled={loading} text="Next" onClick={goToNext}>
           <MdNavigateNext />
         </IconBtn>
       </div>

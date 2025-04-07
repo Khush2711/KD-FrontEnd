@@ -10,6 +10,7 @@ import HighlightText from "../components/core/HomePage/HighlightText";
 import StatsComponent from "../components/core/About/StatsComponent";
 import LearnGrid from "../components/core/About/LearnGrid";
 import ContactFormTemplate from "../components/About/ContactFormTemplate";
+import ReviewSlider from "../components/Common/ReviewSlider";
 
 function About() {
 
@@ -111,6 +112,11 @@ function About() {
         <section className="mx-auto mt-20 flex flex-col w-11/12 max-w-maxContent text-white mb-10">
             <LearnGrid />
             <ContactFormTemplate />
+        </section>
+
+        <section className="mx-auto mt-20 flex flex-col w-11/12 max-w-maxContent text-white mb-10">
+            <p className="text-richblack-5 text-3xl my-5 text-center font-bold">Review from other learners</p>
+            <ReviewSlider />
         </section>
 
     </div>;

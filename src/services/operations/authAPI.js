@@ -166,6 +166,7 @@ export function logout(navigate) {
 
             toast.success("Logged out");
             navigate("/"); // Redirect to login page
+            window.location.reload("/");
         } catch (error) {
             console.error("Logout failed", error);
             toast.error("Logout failed, please try again");

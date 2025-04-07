@@ -8,7 +8,7 @@ function MyProfile() {
 
     // const { user } = useSelector((state) => state.profile);
     const navigate = useNavigate();
-    const {user,additionalDetails} = useSelector((state) => state.profile);
+    const { user, additionalDetails } = useSelector((state) => state.profile);
 
     // Safely render user data or fallback
     if (!user && !additionalDetails) {
@@ -17,21 +17,23 @@ function MyProfile() {
         </div>
     }
 
-    return <div className="text-white w-full">
+    return <div className="text-white w-full relative">
 
 
-        <h1 className="mb-14 text-3xl font-medium text-richblack-5">
+        <h1 className="text-3xl font-medium text-richblack-5 mb-20 below-md:mb-40">
             My Profile
         </h1>
 
         {/* Section 1 */}
-        <div className="flex items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-3 md:p-8 md:px-12">
+        <div className="flex items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-3 md:p-8 md:px-12 below-md:my-10">
             <div className="flex items-center gap-x-4">
-                <img
-                    src={`${user.image}`}
-                    alt="check your internet"
-                    className="aspect-square w-[78px] rounded-full object-cover"
-                />
+                <div className="below-md:absolute below-md:flex below-md:justify-center below-md:items-center top-10 left-1/2 below-md:-translate-x-1/2 below-md:border-[1px] below-md:border-richblack-700 below-md:bg-richblack-800 below-md:p-3 below-md:rounded-full">
+                    <img
+                        src={`${user.image}`}
+                        alt="check your internet"
+                        className="aspect-square w-[78px] rounded-full object-cover"
+                    />
+                </div>
                 <div className="flex flex-col gap-1">
                     <p className="text-richblack-5 font-bold capitalize text-xl">{user?.firstName} {user?.lastName}</p>
                     <p className="text-richblack-400 text-sm">{user?.email}</p>
@@ -79,38 +81,50 @@ function MyProfile() {
                 />
             </div>
 
-            <div className="grid grid-cols-2 grid-rows-3 gap-4 mt-5">
 
-                <div className="">
-                    <p className="text-richblack-400">First Name</p>
-                    <p className="text-richblack-5">{user?.firstName}</p>
+            <div className="">
+
+                <div className="grid grid-cols-2 my-2 below-md:grid-cols-1">
+                    <div className="">
+                        <p className="text-richblack-400">First Name</p>
+                        <p className="text-richblack-5">{user?.firstName}</p>
+                    </div>
+
+                    <div className="">
+                        <p className="text-richblack-400">Last Name</p>
+                        <p className="text-richblack-5">{user?.lastName}</p>
+                    </div>
                 </div>
 
-                <div className="">
-                    <p className="text-richblack-400">Last Name</p>
-                    <p className="text-richblack-5">{user?.lastName}</p>
+                <div className="grid grid-cols-2 my-2 below-md:grid-cols-1">
+                    <div className="">
+                        <p className="text-richblack-400">Email </p>
+                        <p className="text-richblack-5">{user?.email}</p>
+                    </div>
+
+                    <div className="">
+                        <p className="text-richblack-400">Phone Number </p>
+                        <p className="text-richblack-5">{additionalDetails?.contactNumber ?? "Add Phone Number"}</p>
+                    </div>
+
                 </div>
 
-                <div className="">
-                    <p className="text-richblack-400">Email </p>
-                    <p className="text-richblack-5">{user?.email}</p>
-                </div>
+                <div className="grid grid-cols-2 my-2 below-md:grid-cols-1">
+                    <div className="">
+                        <p className="text-richblack-400">Gender </p>
+                        <p className="text-richblack-5">{additionalDetails?.gender ?? "Add Gender"}</p>
+                    </div>
 
-                <div className="">
-                    <p className="text-richblack-400">Phone Number </p>
-                    <p className="text-richblack-5">{additionalDetails?.contactNumber ?? "Add Phone Number"}</p>
-                </div>
-
-                <div className="">
-                    <p className="text-richblack-400">Gender </p>
-                    <p className="text-richblack-5">{additionalDetails?.gender ?? "Add Gender"}</p>
-                </div>
-
-                <div className="">
-                    <p className="text-richblack-400">Date of Birth </p>
-                    <p className="text-richblack-5">{additionalDetails?.dateOfBirth ?? "Add Date of Birth"}</p>
+                    <div className="">
+                        <p className="text-richblack-400">Date of Birth </p>
+                        <p className="text-richblack-5">{additionalDetails?.dateOfBirth ?? "Add Date of Birth"}</p>
+                    </div>
                 </div>
             </div>
+
+
+                        
+
         </div>
 
     </div>;

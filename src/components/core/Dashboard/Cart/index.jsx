@@ -5,7 +5,7 @@ import RenderTotalAmount from "./RenderTotalAmount";
 
 
 export default function Cart() {
-    const { total, totalItem } = useSelector((state) => state.auth);
+    const { total, totalItem } = useSelector((state) => state.cart);
 
     return (
         <div className="text-richblack-5">

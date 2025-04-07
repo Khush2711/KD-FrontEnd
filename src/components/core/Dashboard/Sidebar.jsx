@@ -24,7 +24,7 @@ function Sidebar() {
 
     const extraRoute = [{ id: 1010, name: "Settings", path: "dashboard/settings", icon: "VscSettingsGear" }]
 
-    return <div>
+    return <div className="h-screen below-md:hidden">
         <div className="flex min-w-[222px] flex-col border-r-[1px] border-r-richblack-700 h-[100%] bg-richblack-800 py-10 ">
 
             <div className="flex flex-col">

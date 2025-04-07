@@ -1,3 +1,5 @@
+// import Course from "../components/core/Dashboard/Buy Course/Course";
+
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 // Base url = http://localhost:4000/api/v1
@@ -23,7 +25,9 @@ export const settingsEndpoints = {
 
 // Profile PAGE API
 export const profileEndpoints = {
+    GET_USER_DETAILS_API : BASE_URL + "/profile/getUserDetails",
     GET_USER_ENROLLED_COURSES_API: BASE_URL + "/profile/getEnrolledCourses",
+    GET_INSTRUCTOR_DATA_API : BASE_URL + "/profile/instructorDashboard"
 }
 
 // Course PAGE API
@@ -43,5 +47,20 @@ export const courseEndpoints = {
     GET_FULL_COURSE_DETAILS_AUTHENTICATED: BASE_URL + "/courseRoutes/getFullCourseDetails",
     CREATE_RATING_API: BASE_URL + "/courseRoutes/createRating",
     LECTURE_COMPLETION_API: BASE_URL + "/courseRoutes/updateCourseProgress",
-    GET_ALL_INSTRUCTOR_COURSES_API: BASE_URL,
+    GET_ALL_INSTRUCTOR_COURSES_API: BASE_URL + "/courseRoutes/myCourses",
 };
+
+
+export const catalogData = {
+    CATALOGPAGEDATA_API : BASE_URL + "/courseRoutes/getCategoryPageDetails"
+}
+
+export const studentEndpoints = {
+    COURSE_PAYMENT_API : BASE_URL + "/payment/capturePayment",
+    COURSE_VERIFY_API : BASE_URL + "/payment/verifySignature",
+    SEND_PAYMENT_SUCCESS_EMAIL_API : BASE_URL + "/payment/sendPaymentSuccessEmail"
+}
+
+export const ratingEndpoints = {
+    REVIEW_DETAILS_API : BASE_URL + "/courseRoutes/getReviews"
+}

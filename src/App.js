@@ -26,7 +26,13 @@ import Cart from "./components/core/Dashboard/Cart";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import Dashboard from "./Pages/Dashboard";
 import AddCourse from "./components/core/Dashboard/AddCourse";
-
+import MyCourses from "./components/core/Dashboard/MyCourses";
+import EditCourse from "./components/core/Dashboard/EditCourse";
+import Catalog from "./Pages/Catalog";
+import CourseDetails from "./Pages/CourseDetails";
+import ViewCourse from "./Pages/ViewCourse";
+import VideoDetails from "./components/core/ViewCourse/VideoDetails";
+import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
 
 function App() {
 
@@ -70,12 +76,13 @@ function App() {
     }
   }, []);
 
-
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
+
+        <Route path="/catalog/:catalogName" element={<Catalog />}></Route>
 
         <Route path="/signup" element={
           <OpenRoute>
@@ -110,6 +117,7 @@ function App() {
         <Route path="/about" element={<About />} />
 
         <Route path="/contact" element={<ContactForm />}></Route>
+        <Route path="/courses/:courseId" element={<CourseDetails />} />
 
         <Route
           element={
@@ -132,7 +140,29 @@ function App() {
             user && user.accountType === ACCOUNT_TYPE.INSTRUCTOR &&
             <>
               <Route path="/dashboard/add-course" element={<AddCourse />}></Route>
+              <Route path="/dashboard/instructor" element={<Instructor />}></Route>
+              <Route path="/dashboard/edit-course/:courseId" element={<EditCourse />} />
+              <Route path="dashboard/my-courses" element={<MyCourses />} />
             </>
+          }
+
+        </Route>
+
+        <Route element={
+          <PrivateRoute>
+            <ViewCourse />
+          </PrivateRoute>
+        }>
+
+          {
+            user?.accountType === ACCOUNT_TYPE.STUDENT && (
+              <>
+                <Route
+                  path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
+                  element={<VideoDetails />}
+                />
+              </>
+            )
           }
 
         </Route>
@@ -153,7 +183,7 @@ function App() {
 
       </Routes>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

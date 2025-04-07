@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Loader from "../components/Common/Loader";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/core/Dashboard/Sidebar";
+import BottomNavigationBar from "../components/Common/BottomNavigationBar";
 
 
 function Dashboard() {
@@ -19,18 +20,22 @@ function Dashboard() {
         </div>;
     }
 
-    return <div className="relative flex min-h-[cal(100vh-3.5rem)]">
+    return <>
 
-        <Sidebar />
+        <div className="relative flex min-h-[cal(100vh-3.5rem)]">
 
-        <div className="w-full">
-            <div className="mx-auto w-11/12 max-w-[1000px] py-10">
-                <Outlet />
+            <Sidebar />
+
+            <div className="w-full">
+                <div className="mx-auto w-11/12 max-w-[1000px] py-10">
+                    <Outlet />
+                </div>
             </div>
-        </div>
 
 
-    </div>;
+            <BottomNavigationBar />
+        </div>;
+    </>
 }
 
 export default Dashboard;

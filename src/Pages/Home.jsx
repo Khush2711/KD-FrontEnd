@@ -15,6 +15,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import AnimatedHighlightText from '../components/core/HomePage/animatedHighlightText';
 import AnimatedHeading from '../components/core/HomePage/AnimatedHeading';
+import ReviewSlider from '../components/Common/ReviewSlider';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,7 +55,7 @@ function Home() {
                 </div>
             </Link>
 
-            <AnimatedHeading heading={"Empower Your Future with "} highlightText={"Coding Skills"}/>
+            <AnimatedHeading heading={"Empower Your Future with "} highlightText={"Coding Skills"} />
 
 
             {/* Subheading */}
@@ -197,7 +198,7 @@ function Home() {
                 <div className="flex gap-20 below-md:flex-col">
                     <div className="text-4xl below-md:text-center font-semibold w-[45%] below-md:w-full below-md:absolute below-md:-top-48 font-inter">
                         {/* Get the skills you need for a <HighlightText text={"job that is in demand."} /> */}
-                        <AnimatedHeading heading={"Get the skills you need for a "} highlightText={"job that is in demand."} fullAnimation={true}/>
+                        <AnimatedHeading heading={"Get the skills you need for a "} highlightText={"job that is in demand."} fullAnimation={true} />
                     </div>
 
                     <div className="flex flex-col w-[40%] below-md:w-full below-md:items-center gap-20 items">
@@ -242,7 +243,11 @@ function Home() {
 
             <div className="flex justify-center">
                 <h2 className="text-4xl font-bold mt-10">Reviews from other learners</h2>
+            </div>
+            <div className="">
+
                 {/* review slider */}
+                <ReviewSlider />
             </div>
         </div>
     </div>);

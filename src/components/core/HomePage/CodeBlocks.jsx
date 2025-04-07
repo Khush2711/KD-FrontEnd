@@ -8,7 +8,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
+// gsap.registerPlugin(ScrollTrigger);
 
 const CodeBlocks = ({
   position,
@@ -23,60 +23,63 @@ const CodeBlocks = ({
   const { ref, inView } = useInView({
     threshold: 1,
   });
-
-  useEffect(() => {
-    if (inView) {
+  /*
+    useEffect(() => {
+      if (inView) {
+        
+        const tlText = gsap.timeline({
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top center",
+            toggleActions: "play reverse play reverse",
+          },
+        });
+  
+        const tlCode = gsap.timeline({
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 75%",
+            toggleActions: "play reverse play reverse",
+          },
+        });
+  
       
-      const tlText = gsap.timeline({
-        scrollTrigger: {
-          trigger: ref.current,
-          start: "top center",
-          toggleActions: "play reverse play reverse",
-        },
-      });
-
-      const tlCode = gsap.timeline({
-        scrollTrigger: {
-          trigger: ref.current,
-          start: "top 75%",
-          toggleActions: "play reverse play reverse",
-        },
-      });
-
-    
-      tlText
-        .fromTo(
-          ".textBox1",
-          { opacity: 0, x: -200 },
-          { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }
-        )
-        .fromTo(
-          ".textBox2",
-          { opacity: 0, x: 200 },
-          { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" },
-          "<"
-        );
-
-      tlCode
-        .fromTo(
-          ".codeBox1",
-          { opacity: 0, scale: 0.8, y: 100 },
-          { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: "power3.out", delay: 0.2 }
-        )
-        .fromTo(
-          ".codeBox2",
-          { opacity: 0, scale: 0.8, y: 100 },
-          { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: "power3.out", delay: 0.2 },
-          "<" // Ensures the animation for codeBox2 runs at the same time as codeBox1
-        );
-    }
-  }, [inView]);
+        tlText
+          .fromTo(
+            ".textBox1",
+            { opacity: 0, x: -200 },
+            { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" }
+          )
+          .fromTo(
+            ".textBox2",
+            { opacity: 0, x: 200 },
+            { opacity: 1, x: 0, duration: 1.2, ease: "power2.out" },
+            "<"
+          );
+  
+        tlCode
+          .fromTo(
+            ".codeBox1",
+            { opacity: 0, scale: 0.8, y: 100 },
+            { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: "power3.out", delay: 0.2 }
+          )
+          .fromTo(
+            ".codeBox2",
+            { opacity: 0, scale: 0.8, y: 100 },
+            { opacity: 1, scale: 1, y: 0, duration: 1.5, ease: "power3.out", delay: 0.2 },
+            "<" // Ensures the animation for codeBox2 runs at the same time as codeBox1
+          );
+      }
+    }, [inView]);
+  
+    */
 
   return (
     <div
       ref={ref}
       className={`below-md:flex-col flex ${position} my-28 justify-between gap-12 items-center`}
     >
+      
       {/* Section 1 */}
       <div
         className={`below-md:w-[100%] w-[60%] flex flex-col gap-12 ${position === "lg:flex-row" ? `textBox1` : `textBox2`}`}
@@ -105,11 +108,11 @@ const CodeBlocks = ({
 
       {/* Section 2 */}
       <div
-        className={`h-fit flex text-base below-md:w-full w-[50%] py-4 border-2 code-border border-richblack-400 relative coding-block code-block-animation 
-          ${position === "lg:flex-row" ? `codeBox1` : `codeBox2`}`}
+        className={`h-fit flex text-base below-md:w-full w-[50%] py-4 border-2 bg-transparent border-richblack-400 relative
+          ${position === "lg:flex-row" ? `codeBox1` : `codeBox2`} `}
       >
         <div
-          className={`absolute ${backgroundColor} h-[60%] w-[60%] rounded-[100%]`}
+          className={`absolute ${backgroundColor} rounded-[100%]`}
         ></div>
 
         <div className="text-center flex flex-col md:w-[10%] text-richblack-400 font-inter font-bold relative">
