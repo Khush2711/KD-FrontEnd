@@ -197,8 +197,8 @@ function Home() {
             <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto mt-[110px] relative">
                 <div className="flex gap-20 below-md:flex-col">
                     <div className="text-4xl below-md:text-center font-semibold w-[45%] below-md:w-full below-md:absolute below-md:-top-48 font-inter">
-                        {/* Get the skills you need for a <HighlightText text={"job that is in demand."} /> */}
-                        <AnimatedHeading heading={"Get the skills you need for a "} highlightText={"job that is in demand."} fullAnimation={true} />
+                        Get the skills you need for a <HighlightText text={"job that is in demand."} />
+                        {/* <AnimatedHeading heading={"Get the skills you need for a "} highlightText={"job that is in demand."} fullAnimation={true} /> */}
                     </div>
 
                     <div className="flex flex-col w-[40%] below-md:w-full below-md:items-center gap-20 items">

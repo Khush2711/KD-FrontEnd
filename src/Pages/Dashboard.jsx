@@ -25,7 +25,6 @@ function Dashboard() {
         <div className="relative flex min-h-[cal(100vh-3.5rem)]">
 
             <Sidebar />
-
             <div className="w-full">
                 <div className="mx-auto w-11/12 max-w-[1000px] py-10">
                     <Outlet />

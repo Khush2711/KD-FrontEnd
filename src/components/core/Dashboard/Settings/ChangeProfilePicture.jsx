@@ -66,7 +66,7 @@ export default function ChangeProfilePicture() {
             alt={`profile-${user?.firstName}`}
             className="aspect-square w-[78px] rounded-full object-cover"
           />
-          <div className="space-y-2">
+          <div className="w-full">
             <p>Change Profile Picture</p>
             <div className="flex flex-row gap-3">
               <input
@@ -76,21 +76,23 @@ export default function ChangeProfilePicture() {
                 className="hidden"
                 accept="image/png, image/gif, image/jpeg"
               />
-              <button
-                onClick={handleClick}
-                disabled={loading}
-                className="cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-semibold text-richblack-50"
-              >
-                Select
-              </button>
-              <IconBtn
-                text={loading ? "Uploading..." : "Upload"}
-                onClick={handleFileUpload}
-              >
-                {!loading && (
-                  <FiUpload className="text-lg text-richblack-900" />
-                )}
-              </IconBtn>
+              <div className="flex gap-x-2">
+                <button
+                  onClick={handleClick}
+                  disabled={loading}
+                  className="cursor-pointer rounded-md bg-richblack-700 py-2 mt-2 px-5 font-semibold text-richblack-50"
+                >
+                  Select
+                </button>
+                <IconBtn
+                  text={loading ? "Uploading..." : "Upload"}
+                  onClick={handleFileUpload}
+                >
+                  {!loading && (
+                    <FiUpload className="text-lg text-richblack-900" />
+                  )}
+                </IconBtn>
+              </div>
             </div>
           </div>
         </div>

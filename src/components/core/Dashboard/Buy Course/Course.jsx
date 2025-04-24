@@ -30,6 +30,8 @@ function Course() {
 
     const fetchCourseData = async () => {
         const data = await fetchCourseDetails(courseId);
+        // console.log("FetchCourseData.............",data);
+        
 
         // Check enrollment from the fetched data
         const isStudentEnrolled = data.courseDetails.studentsEnrolled.some(
@@ -80,6 +82,7 @@ function Course() {
         }
         if(token)
         {
+            
             dispatch(addToCart(course));
             return;
         }
@@ -104,16 +107,16 @@ function Course() {
             )
                 :
                 (
-                    <div className="relative h-full w-[1280px] mx-auto">
+                    <div className="relative h-full w-[1280px] mx-auto below-md:w-auto below-md:flex below-md:justify-center below-md:flex-col">
 
                         {/* Catalog Card  */}
-                        <div className="absolute top-5 right-10 flex flex-col gap-4 rounded-md bg-richblack-700 p-4 text-richblack-5">
+                        <div className="absolute below-md:relative below-md:w-[350px] below-md:mx-auto md:top-5 md:right-10 flex flex-col justify-center gap-4 rounded-md bg-richblack-700 below-md:bg-richblack-900 p-4 text-richblack-5 below-md:my-5">
 
                             <div className="">
                                 <img
                                     src={course?.thumbnail}
                                     alt="img not found"
-                                    className="max-h-[300px] min-h-[180px] w-[400px] overflow-hidden rounded-2xl object-cover md:max-w-full"
+                                    className="max-h-[300px] min-h-[180px] w-[400px] overflow-hidden rounded-2xl object-cover below-md:max-w-full below-md:flex below-md:justify-center shadow-[0_4px_6px_-1px_rgba(0,0,0,0.5)]"
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
@@ -121,6 +124,7 @@ function Course() {
                                     Rs. {course?.price}
                                 </div>
                                 <div className="flex flex-col gap-4">
+                                    
                                     <button
                                         onClick={user && isEnrolled ? () => navigate("/dashboard/enrolled-courses") : handleBuyCourse}
                                         className="px-4 py-2 text-black font-bold rounded-lg bg-yellow-50 cursor-pointer">
@@ -139,7 +143,7 @@ function Course() {
                                             <></>
                                     }
                                 </div>
-                                <div className="">
+                                <div className="below-md:hidden">
                                     <p className="my-2 text-xl font-semibold ">This Course Includes:</p>
                                     {
                                         course?.tag.map((item, idx) => (
@@ -150,7 +154,7 @@ function Course() {
                                         ))
                                     }
                                 </div>
-                                <div className="flex justify-center">
+                                <div className="flex justify-center below-md:hidden">
                                     <button
                                         onClick={handleCopy}
                                         className="text-yellow-100 flex items-center gap-1 justify-center text-center">
@@ -163,17 +167,17 @@ function Course() {
                         </div>
 
                         {/* section 1 */}
-                        <div className="  w-full h-full bg-richblack-800 py-5 pb-10">
+                        <div className="  w-full h-full bg-richblack-800 below-md:bg-richblack-900 py-5 pb-10">
                             <div className="mx-5 ">
 
-                                <p className="text-4xl font-bold text-richblack-5 sm:text-[42px] py-2 mt-10 ">{course?.courseName}</p>
-                                <p className="text-richblack-400 py-2 text-l w-[60%] text-justify">{course?.CourseDescription}</p>
+                                <p className="text-4xl font-bold text-richblack-5 sm:text-[42px] py-2 mt-10">{course?.courseName}</p>
+                                <p className="text-richblack-400 py-2 text-l w-[60%] below-md:w-full text-justify">{course?.CourseDescription}</p>
                                 <div className="flex flex-col px-1">
 
                                     <div className="flex items-center gap-2 py-2 text-xl text-left">
                                         <p className=" text-yellow-100">{avgReviewCount || 0}</p>
                                         <RatingStars Review_Count={avgReviewCount || 0} />
-                                        <span className="text-richblack-5">({course?.ratingAndReviews.length} Reviews)</span>
+                                        <span className="text-richblack-5 below-md:hidden">({course?.ratingAndReviews.length} Reviews)</span>
                                         <span className="text-richblack-5">{course?.studentsEnrolled?.length} students enrolled</span>
                                     </div>
                                     <p>Created By {course?.instructor?.firstName || "Khush"} {course?.instructor?.lastName || "Desai"}</p>
@@ -187,7 +191,7 @@ function Course() {
                         </div>
 
                         {/* section 2 */}
-                        <div className="w-[60%] ml-5">
+                        <div className="w-[60%] md:ml-5 below-md:mr-0 below-md:w-fit below-md:mx-auto">
                             <div className="my-8 border border-richblack-600 p-8">
                                 <p className="text-3xl font-semibold">What you'll learn</p>
                                 <p className="mt-5 text-justify">{course?.whatYouWillLearn}</p>
@@ -195,7 +199,7 @@ function Course() {
                         </div>
 
                         {/* section 3 */}
-                        <div className="">
+                        <div className="w-full">
                             <RenderSection courseContent={course?.courseContent} totalDuration={course?.totalDuration} />
                         </div>
 

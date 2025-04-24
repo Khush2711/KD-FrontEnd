@@ -14,13 +14,13 @@ function RenderCartCourses() {
   return <div>
     {
       cart.map((course, key) => (
-        <div className="">
-          <div className="">
-            <img src={course?.thumbnail} alt="" />
+        <div className="flex">
+          <div className="flex w-full flex-wrap items-start justify-between gap-6 border-b border-b-richblack-400 pb-6 pt-6">
+            <img className="md:h-[148px] md:w-[220px] h-[100px] w-[180px] rounded-lg object-cover" src={course?.thumbnail} alt="" />
             <div className="">
-              <p>{course?.courseName}</p>
-              <p>{course?.category?.name}</p>
-              <div className="">
+              <p className="text-lg font-semibold text-richblack-5 poppins">{course?.courseName}</p>
+              <p className="text-sm text-richblack-300">{course?.category?.name}</p>
+              <div className="flex items-center">
                 <span>4.8</span>
                 <ReactStars
                   count={5}
@@ -35,18 +35,24 @@ function RenderCartCourses() {
               </div>
             </div>
 
+            <div className="flex flex-col justify-center below-md:flex-row below-md:items-center below-md:gap-x-4">
+
+              <p className="mb-6 text-2xl md:text-3xl font-medium text-yellow-100">₹{course?.price}</p>
+              <div className="flex justify-center below-md:items-center ">
+                <button
+                  className="flex items-center gap-x-1 rounded-md border border-richblack-600 bg-richblack-700 py-2 px-[8px] text-pink-200 text-lg font-medium"
+                  onClick={() => {
+                    dispatch(removeFromCart(course._id))
+                  }}>
+                  <MdDelete />
+                  {/* <span>Remove</span> */}
+                </button>
+              </div>
+            </div>
+
           </div>
 
-          <div className="">
-            <button
-            onClick={()=>{
-              dispatch(removeFromCart(course._id))
-            }}>
-              <MdDelete />
-              <span>Remove</span>
-            </button>
-            <p>Price : {course?.price}</p>
-          </div>
+
         </div>
       ))
     }

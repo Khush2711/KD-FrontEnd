@@ -43,23 +43,46 @@ function InstructorChart({ courses }) {
 
     // create option
     const option = {
+        plugins: {
+            legend: {
+                position: 'right',
+                align: 'start',
+                labels: {
+                    boxWidth: 20,
+                    padding: 10,
+                    margin: 20,
+                },
+            },
+        },
+        layout: {
+            padding: {
+                right: 30,
+            },
+        },
+    };
 
-    }
-
-    return <div>
-        <p>Visualise</p>
+    return <div className="m-3 my-5 flex flex-col flex-1 rounded-md bg-richblack-800 p-6">
 
         <div className="flex gap-x-5">
-            <button onClick={()=>setCurrChart("Students")}>
-                Student
-            </button>
-            <button onClick={()=>setCurrChart("Income")}>
-                Income
-            </button>
+
+            <p className="text-xl">Visualize</p>
+
+            <div className="flex justify-end gap-x-5 w-full">
+                <button className={`${currChart === "Students" ? "bg-richblack-900 text-yellow-100" : " bg-richblack-800 text-richblack-100"} px-2 py-2 rounded-md`}
+                    onClick={() => setCurrChart("Students")}>
+                    Student
+                </button>
+                <button className={`${currChart === "Income" ? "bg-richblack-900 text-yellow-100" : " bg-richblack-800 text-richblack-100"} px-2 py-2 rounded-md`}
+                    onClick={() => setCurrChart("Income")}>
+                    Income
+                </button>
+            </div>
         </div>
 
-        <div className="">
+        <div className="" style={{ display: 'flex', flexDirection: 'row', height: '500px' }}>
             <Pie
+                height={"h-full"}
+                width={"w-full"}
                 data={currChart === "Students" ? chartDataForStudents : chartDataForIncome}
                 options={option}
             />

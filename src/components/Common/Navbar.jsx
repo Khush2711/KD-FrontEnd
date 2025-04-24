@@ -60,11 +60,14 @@ function Navbar() {
     }
   };
 
-  const handleCatalogLeave = () => {
+  const handleCatalogLeave = async () => {
     if (!isMobile) {
-      setIsCatalogOpen(false);
+      setTimeout(() => {
+        setIsCatalogOpen(false);
+      }, 300);
     }
   };
+
 
   const handleCatalogClickMobile = () => {
     if (isMobile) {
@@ -101,7 +104,7 @@ function Navbar() {
               <li key={i}>
                 {ele.title === "Catalog" ? (
                   <div
-                    className="text-richblack-25 flex gap-x-1 items-center group relative cursor-pointer"
+                    className="text-richblack-25 flex gap-x-1 gap-y-10 items-center group relative cursor-pointer"
                     onMouseEnter={handleCatalogHover}
                     onMouseLeave={handleCatalogLeave}
                   >
@@ -110,7 +113,7 @@ function Navbar() {
 
                     {isCatalogOpen && (
                       <div
-                        className="absolute left-[50%] top-[50%] flex flex-col rounded-md bg-richblack-5 p-4 text-richblack-900 opacity-100 transition-all duration-200 w-[300px] -translate-x-[50%] translate-y-[20%] z-10"
+                        className="absolute left-[50%] -top-5 flex gap-y-4 -mt-4 flex-col rounded-md bg-richblack-5 p-4 text-richblack-900 opacity-100 transition-all duration-200 w-[300px] -translate-x-[50%] translate-y-[20%] z-10"
                         onMouseEnter={handleCatalogHover}
                         onMouseLeave={handleCatalogLeave}
                       >
@@ -118,7 +121,11 @@ function Navbar() {
 
                         {subLinks.length ? (
                           subLinks.map((link, index) => (
-                            <Link to={`/catalog/${link.name.split(" ").join("-").toLowerCase()}`} key={index}>
+                            <Link
+                              to={`/catalog/${link.name.split(" ").join("-").toLowerCase()}`}
+                              key={index}
+                              onMouseEnter={handleCatalogHover}
+                            >
                               {link.name}
                             </Link>
                           ))

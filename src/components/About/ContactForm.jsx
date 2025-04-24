@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import countrycode from "../../data/countrycode.json";
 import ReviewSlider from "../Common/ReviewSlider";
+import { sendMail } from "../../services/operations/authAPI";
+import { useDispatch } from "react-redux";
+import { getContactFormEmailTemplate } from "../../assets/emailTemplate";
 
 function ContactForm() {
     const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
 
     const {
         register,
@@ -19,6 +23,12 @@ function ContactForm() {
 
     const submitContactForm = async (data) => {
         console.log(data);
+        // dispatch(sendMail({data.email, `📩 You've Got a New Message via KD Studies Website`, getContactFormEmailTemplate({ ...data }})));
+        dispatch(sendMail({
+            email: data.email,
+            title: `📩 You've Got a New Message via KD Studies Website`,
+            body: getContactFormEmailTemplate({ ...data })
+        }));
     }
 
     useEffect(() => {
@@ -36,13 +46,13 @@ function ContactForm() {
 
     return (
         <>
-            <div className="mt-12 mx-auto">
-                <form className="flex flex-col gap-7" onSubmit={handleSubmit(submitContactForm)}>
+            <div className="my-12 mx-auto">
+                <form className="flex flex-col gap-7 text-white mx-auto border border-richblack-600 rounded-xl p-6 " onSubmit={handleSubmit(submitContactForm)}>
 
                     <div className="flex gap-5 below-md:flex-col">
                         {/* First Name */}
                         <div className="flex flex-col gap-2 md:w-[48%] below-md:flex-col">
-                            <label htmlFor="firstName">First Name</label>
+                            <label htmlFor="firstName" className="text-white">First Name</label>
                             <input
                                 type="text"
                                 name="firstName"
@@ -55,7 +65,7 @@ function ContactForm() {
                         </div>
                         {/* Last Name */}
                         <div className="flex flex-col gap-2 md:w-[48%] below-md:flex-col">
-                            <label htmlFor="lastName">Last Name</label>
+                            <label htmlFor="lastName" className="text-white">Last Name</label>
                             <input
                                 type="text"
                                 name="lastName"
@@ -69,7 +79,7 @@ function ContactForm() {
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="email">Email Address</label>
+                        <label htmlFor="email" className="text-white">Email Address</label>
                         <input
                             type="email"
                             name="email"
@@ -82,7 +92,7 @@ function ContactForm() {
                     </div>
 
                     <div className="flex flex-col gap-5">
-                        <label htmlFor="phoneNumber" className="-mb-4">Phone Number</label>
+                        <label htmlFor="phoneNumber" className="-mb-4 text-white">Phone Number</label>
                         <div className="flex gap-4">
                             {/* Country Code */}
                             <div className="flex gap-2">
@@ -126,7 +136,7 @@ function ContactForm() {
                     {errors.contactNumber && <span className="-mt-5 text-[12px] text-yellow-100">{errors.contactNumber.message}</span>}
 
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="message">Message</label>
+                        <label htmlFor="message" className="text-white">Message</label>
                         <textarea
                             name="message"
                             id="message"
@@ -147,10 +157,10 @@ function ContactForm() {
 
             </div>
 
-            <section className="mx-auto mt-20 flex flex-col w-11/12 max-w-maxContent text-white mb-10">
+            {/* <section className="mx-auto mt-20 flex flex-col w-11/12 max-w-maxContent text-white mb-10">
                 <p className="text-richblack-5 text-3xl my-5 text-center font-bold">Review from other learners</p>
                 <ReviewSlider />
-            </section>
+            </section> */}
         </>
     );
 }

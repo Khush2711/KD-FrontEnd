@@ -26,7 +26,7 @@ function CourseSlider({ courses }) {
           >
             {courses.map((course, idx) => (
               <SwiperSlide key={idx} className="overflow-visible relative z-50 ">
-                <Course_Card course={course} Height={"h-[250px]"} weight={"w-[450px]"} />
+                <Course_Card course={course} Height={"h-[150px]"} weight={"w-[350px]"} />
               </SwiperSlide>
             ))}
           </Swiper>

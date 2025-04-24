@@ -116,9 +116,9 @@ function SubSectionModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[1000] !mt-0  bg-white bg-opacity-10 backdrop-blur-sm">
+    <div className="below-md:flex below-md:justify-center below-md:items-center fixed inset-0 z-[1000] !mt-0  bg-white bg-opacity-10 backdrop-blur-sm">
 
-      <div className="flex flex-col justify-center items-center ">
+      <div className="flex flex-col justify-center items-center gap-y-2">
 
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-11/12 max-h-[600px] max-w-[450px] rounded-lg border border-richblack-400 bg-richblack-800 p-5 py-4 overflow-y-scroll">

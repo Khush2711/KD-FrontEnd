@@ -1,79 +1,91 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { FaCheck } from "react-icons/fa";
+import { Stepper } from "react-form-stepper";
+
 import CourseInformationForm from "./Course Information/CourseInformationForm";
 import CourseBuilderForm from "./Course Information/CourseBuilderForm";
 import CoursePublishForm from "./Course Information/CoursePublishForm";
 
-function RenderSteps() {
+import "./stepperStyles.css"; // ⬅️ custom styles for dotted line + active step
 
+function RenderSteps() {
   const { step } = useSelector((state) => state.course);
 
   const steps = [
-    {
-      id: 1,
-      title: "Confirmation Information"
-    },
-    {
-      id: 2,
-      title: "Course Builder"
-    },
-    {
-      id: 3,
-      title: "Publish"
-    }
-  ]
+    { label: "Course Information" },
+    { label: "Course Builder" },
+    { label: "Publishing Course" },
+  ];
 
-  return <div>
+  return (
+    <div className="w-full px-4 py-6 text-white">
+      <Stepper
+        steps={steps}
+        activeStep={step - 1}
+        className="custom-stepper"
+        completedColor="#FFE83D"
+        inactiveColor="#4A4A4A"
+        stepClassName="custom-step"
+        styleConfig={{
+          completedBgColor: "#2C2C2C",
+          inactiveBgColor: "#2C2C2C",
+          circleFontColor: "#FFE83D",
+          size: "1.8em",
+          labelFontSize: "0.9rem",
+        }}
+      />
 
-    <div className="flex justify-evenly m-2">
-      {
-        steps.map((item, idx) => (
-          <>
-
-            <div className={`text-white flex justify-evenly gap-x-5`}>
-              {
-                step > item.id ? (
-
-                  <>
-                    <div className="flex flex-col text-white justify-evenly w-48 items-center z-[5] relative">
-                      <p className="w-11 h-11 rounded-full bg-yellow-25 flex justify-center items-center z-[5]">
-                        <FaCheck className="text-black"/>
-                      </p>
-                      <p className="text-[12px]">{item.title}</p>
-                      {
-                        item.id < 3 && (
-                          <div className={`border border-dashed w-52 top-5 -right-24 absolute z-[2] ${item.id < step && 'border-yellow-25'} `}></div>
-                        )
-                      }
-                    </div>
-
-                  </>
-                ) : (
-                  <>
-                    <div className="flex flex-col text-white justify-evenly w-48 items-center relative z-[5]">
-                      <p className={`w-11 h-11 rounded-full bg-richblack-700 flex justify-center items-center z-[5] ${step === item.id &&  "border-2 border-yellow-100 bg-yellow-800 text-yellow-25"}`}>{item.id}</p>
-                      <p className="text-[12px]">{item.title}</p>
-                      {
-                        item.id < 3 && (
-                          <div className={`border border-dashed w-52 top-5 -right-24 absolute z-[2] ${item.id < step && 'border-yellow-25'} `}></div>
-                        )
-                      }
-                    </div>
-                  </>
-                )
-              }
-            </div>
-          </>
-        ))
-      }
+      <div className="mt-8">
+        {step === 1 && <CourseInformationForm />}
+        {step === 2 && <CourseBuilderForm />}
+        {step === 3 && <CoursePublishForm />}
+      </div>
     </div>
-
-    {step === 1 && <CourseInformationForm />}
-    {step === 2 && <CourseBuilderForm />}
-    {step === 3 && <CoursePublishForm />}
-
-  </div>;
+  );
 }
 
 export default RenderSteps;
+
+
+
+/**
+ *   return (
+    <div>
+      <div className="flex justify-around m-2">
+        {steps.map((item, idx) => (
+          <div key={item.id} className="flex items-center">
+           
+            <div className={`flex flex-col text-white justify-center items-center relative z-[5]`}>
+              <p
+                className={`w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full flex justify-center items-center z-[5]
+                  ${step > item.id ? 'bg-yellow-25' : 'bg-richblack-700'}
+                  ${step === item.id && "border-2 border-yellow-100 bg-yellow-800 text-yellow-25"}
+                `}
+              >
+                {step > item.id ? (
+                  <FaCheck className="text-black text-sm sm:text-base md:text-base" />
+                ) : (
+                  item.id
+                )}
+              </p>
+              <p className="text-[10px] sm:text-[11px] md:text-[12px] text-center mt-2">{item.title}</p>
+            </div>
+
+            
+            {item.id < steps.length && (
+              <div
+                className={`flex-grow border-b-2 border-dashed mt-5 ${
+                  item.id < step ? 'border-yellow-25' : 'border-gray-300'
+                }`}
+              ></div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {step === 1 && <CourseInformationForm />}
+      {step === 2 && <CourseBuilderForm />}
+      {step === 3 && <CoursePublishForm />}
+    </div>
+  );
+ */

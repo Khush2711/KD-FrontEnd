@@ -5,16 +5,16 @@ import RenderTotalAmount from "./RenderTotalAmount";
 
 
 export default function Cart() {
-    const { total, totalItem } = useSelector((state) => state.cart);
+    const { total, totalItems } = useSelector((state) => state.cart);
 
     return (
         <div className="text-richblack-5">
-            <h1>Your Cart</h1>
-            <p>{totalItem} courses in your cart</p>
+            <h1 className="text-3xl text-richblack-50">Your Cart</h1>
+            <p className="border-b  border-b-richblack-400 pb-2 font- text-richblack-400 ">{totalItems} courses in your cart</p>
 
             {
                 total > 0 ? (
-                    <div className="">
+                    <div className="flex justify-between below-md:flex-col">
                         <RenderCartCourses />
                         <RenderTotalAmount />
                     </div>

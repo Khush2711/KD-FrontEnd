@@ -26,6 +26,8 @@ function Instructor() {
         }
         if (result?.data?.courses) {
             setCourseData(result.data.courses);
+            // console.log("courseData............", result.data.courses);
+
         }
 
         setLoading(false); // Fix loading state
@@ -40,65 +42,75 @@ function Instructor() {
 
     return (
         <div className="text-white">
-            <div>
-                <p>Hi {user?.firstName} 👋</p>
-                <p>Let's start something new</p>
+            <div className="m-3">
+                <p className=" text-2xl font-bold text-richblack-5 capitalize">Hi {user?.firstName} 👋</p>
+                <p className="font-medium text-richblack-200">Let's start something new</p>
             </div>
 
             {loading ? (
-                <Loader />
+                // <Loader />
+                <></>
             ) : courseData?.length > 0 ? (
                 <div>
-                    <div>
+                    <div className="flex ">
                         <InstructorChart courses={instructorData} />
-                        <div>
-                            <p>Statistics</p>
+                        <div className="flex min-w-[250px] flex-col rounded-md bg-richblack-800 p-5 gap-y-4 m-3 my-5">
+                            <p className="text-lg font-bold text-richblack-5">Statistics</p>
                             <div>
-                                <p>Total Courses</p>
-                                <p>{courseData.length}</p>
+                                <p className="text-lg text-richblack-200">Total Courses</p>
+                                <p className="text-xl  font-bold text-richblack-5">{courseData.length}</p>
                             </div>
 
                             <div>
-                                <p>Total Students</p>
-                                <p>{totalStudents}</p>
+                                <p className="text-lg text-richblack-200">Total Students</p>
+                                <p className="text-xl  font-bold text-richblack-5">{totalStudents}</p>
                             </div>
 
                             <div>
-                                <p>Total Income</p>
-                                <p>Rs. {totalAmount}</p>
+                                <p className="text-lg text-richblack-200">Total Income</p>
+                                <p className="text-xl  font-bold text-richblack-5">Rs. {totalAmount}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div>
-                        <p>Your Courses</p>
-                        <Link to="/dashboard/my-courses">
-                            <p>View all</p>
-                        </Link>
-                    </div>
+                    <div className="m-3 rounded-md bg-richblack-800 p-6">
 
-                    <div>
-                        {courseData.slice(0, 3).map((course) => (
-                            <div key={course._id}>
-                                <img src={course?.thumbnail} alt="Course Image" />
+                        <div className="flex items-center justify-between">
+                            <p className="text-xl font-bold">Your Courses</p>
+                            <Link to="/dashboard/my-courses" className="text-yellow-300">
+                                <p>View all</p>
+                            </Link>
+                        </div>
 
-                                <div>
-                                    <p>{course?.courseName}</p>
+                        <div className="flex gap-x-2 below-md:flex-col">
+                            {courseData.slice(0, 3).map((course) => (
+                                <div key={course._id} className="flex flex-col my-2 gap-y-4">
+                                    <img
+                                        className=" aspect-video md:h-[201px] w-full rounded-md object-cover"
+                                        src={course?.thumbnail}
+                                        alt="Course Image" />
 
-                                    <div>
-                                        <p>{course?.totalStudentsEnrolled} Students</p>
-                                        <p>|</p>
-                                        <p>Rs. {course?.totalAmountGenerated}</p>
+                                    <div className="below-md:flex below-md:flex-col below-md:justify-center below-md:items-center">
+                                        <p className="text-sm font-medium text-richblack-50">{course?.courseName}</p>
+
+                                        <div className="mt-1 flex items-center space-x-2 ">
+                                            <p className="text-xs font-medium text-richblack-300">{totalStudents} Students</p>
+                                            <p className="text-sm font-medium text-richblack-50">|</p>
+                                            <p className="text-xs font-medium text-richblack-300">Rs. {totalAmount}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
+
                 </div>
             ) : (
-                <div>
-                    <p>You have not created any courses yet</p>
-                    <Link to={"/dashboard/addCourse"}>Create a course</Link>
+                <div className="flex justify-center items-center h-24 flex-col gap-y-10 mt-20">
+                    <p className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#FCB045] bg-clip-text text-4xl font-semibold text-transparent lg:w-[70%] ">You have not created any courses yet</p>
+                    <p className="bg-gradient-to-b from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-richblack-5 px-6 py-4 rounded-full text-4xl font-semibold lg:w-[70%] ">
+                        <Link to={"/dashboard/add-course"}>Create a course</Link>
+                    </p>
                 </div>
             )}
         </div>

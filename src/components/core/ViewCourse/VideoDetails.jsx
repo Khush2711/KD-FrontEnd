@@ -159,13 +159,13 @@ function VideoDetails({ setReviewModal }) {
   
 
   return (
-    <div className="p-4">
+    <div className="p-4 text-white">
       {!videoData ? (
         <p className="text-center text-gray-500">No video available</p>
       ) : (
         <div className="flex flex-col items-center">
           {/* Video Player */}
-          <div className="w-full max-w-3xl">
+          <div className="w-full max-w-3">
             <Player
               ref={playerRef}
               playsInline

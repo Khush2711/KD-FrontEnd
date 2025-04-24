@@ -18,9 +18,9 @@ function EditCourse() {
             setLoading(true);
             const result = await getFullDetailsOfCourse(courseId, token);
             console.log("courses.....................:",result)
-            if (result?.courseDetails) {
+            if (result?.data?.courseDetails) {
                 dispatch(setEditCourse(true));
-                dispatch(setCourse(result.courseDetails));
+                dispatch(setCourse(result?.data.courseDetails));
             }
             setLoading(false);
         }

@@ -64,7 +64,7 @@ function About() {
             <div className="grid  grid-rows-2 grid-cols-2 md:gap-8 md:mt-20 md:gap-y-28 w-full md:p-8 p-4 below-md:gap-2 below-md:grid-rows-4 below-md:grid-cols-1 below-md:text-justify">
                 {/* row 1  col 1*/}
                 <div className="flex flex-col gap-4 w-full">
-                    <h2 className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#FCB045] bg-clip-text text-4xl font-semibold text-transparent md:w-[70%]">
+                    <h2 className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#FCB045] bg-clip-text text-4xl font-semibold text-transparent below-md::w-[70%] ">
                         Our Founding Story
                     </h2>
                     <p className="text-base font-medium text-richblack-300 below-md:w-[95%]">

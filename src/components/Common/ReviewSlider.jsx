@@ -50,6 +50,7 @@ function ReviewSlider() {
                         1024: { slidesPerView: 3 },
                         768: { slidesPerView: 2 },
                         480: { slidesPerView: 1 },
+                        380: { slidesPerView: 1 },
                     }}
                 >
                     {reviews.map((review, idx) => (

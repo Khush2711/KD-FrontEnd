@@ -25,15 +25,20 @@ const BottomNavigationBar = () => {
                 {filteredLinks.map((link) => {
                     const Icon = Icons[link.icon];
                     return (
-                        <NavLink
-                            key={link.id}
-                            to={link.path}
-                            className={`flex flex-col items-center justify-center gap-1 ${pathname === link.path ? "text-yellow-200" : "text-richblack-5"
-                                }`}
-                        >
-                            {Icon && <Icon size={30} />}
-                            {/* <span className="text-xs">{link.name}</span> */}
-                        </NavLink>
+                        <>
+                            <NavLink
+                                key={link.id}
+                                to={link.path}
+                                className={`flex flex-col font-extrabold p-2 px-4 items-center justify-center gap-1 ${pathname === link.path ? "text-richblack-5 bg-yellow-800  relative" : "text-richblack-5"
+                                    }`}
+                            >
+                                {Icon && <Icon size={30} />}
+                                {/* <span className="text-xs">{link.name}</span> */}
+                                {
+                                    pathname === link.path && ( <div className="absolute bg-yellow-50 w-full h-1 bottom-0"></div> )
+                                }
+                            </NavLink>
+                        </>
                     );
                 })}
 

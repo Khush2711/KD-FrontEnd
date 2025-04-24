@@ -234,3 +234,26 @@ export function changeProfile(navigate, formData) {
         }
     };
 }
+
+
+export function sendMail({ email, title, body }) {
+    return async (dispatch) => {
+        dispatch(setLoading(true));  // Start loading
+
+        try {
+            const response = await apiConnector("POST", categories.SEND_MAIL, { email, title, body });
+            // console.log("Reset Password Response......", response);
+
+            if (!response?.data?.success) {
+                throw new Error(response.data.message);
+            }
+
+            toast.success("Mail Sent Successfully....");
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Error occurred while sending the mail...");
+            console.log(error);
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+}

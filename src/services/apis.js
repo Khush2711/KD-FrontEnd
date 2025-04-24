@@ -12,7 +12,8 @@ export const categories = {
     SIGNUP_OTP_SENDER: BASE_URL + "/auth/sendotp",
     LOGIN: BASE_URL + "/auth/login",
     LOGOUT: BASE_URL + "/auth/logout",
-    CHANGE_PROFILE_IMAGE: BASE_URL + "/Profile/updateDisplayPicture"
+    CHANGE_PROFILE_IMAGE: BASE_URL + "/Profile/updateDisplayPicture",
+    SEND_MAIL : BASE_URL + "/sendMail"
 }
 
 // SETTINGS PAGE API
